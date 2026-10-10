@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c26">
+  <meta name="description" content="고등학교 수학으로 읽는 나비에–스토크스 반례 발표. 유한시간 발산, 소용돌이, 점성, 유한한 에너지를 2D·3D 시각화와 수식으로 이해합니다.">
+  <title>소용돌이의 끝에서 — 나비에–스토크스와 무한대</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/visuals.js" defer></script>
+  <script src="assets/report.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#report">본문으로 건너뛰기</a>
+  <div id="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#intro"><span class="brand-symbol" aria-hidden="true">∿</span> THE FLUID NOTE <span class="brand-number">№ 01</span></a>
+    <nav class="nav-links" aria-label="주요 메뉴"><a href="#first">리포트</a><a href="#geometry">시각 실험</a><a href="#sources">출처</a></nav>
+    <button class="header-action print-button" type="button">인쇄 / PDF <span aria-hidden="true">↗</span></button>
+  </header>
+
+  <main>
+    <section class="hero" id="intro" aria-labelledby="report-title">
+      <div class="hero-copy">
+        <p class="eyebrow">MATHEMATICS, FOR THE CURIOUS</p>
+        <h1 id="report-title">소용돌이의 끝에서,<br><span class="accent">무한대를 만나다.</span></h1>
+        <p class="hero-deck">가장 빠른 곳의 속도는 끝없이 커지는데,<br>전체 에너지는 유한할 수 있을까?<br>나비에–스토크스 반례 발표를 읽는 수학 산책.</p>
+        <div class="hero-meta"><span>고등학교 수학으로 읽기</span><span>약 18분 · 2D / 3D 실험</span><time datetime="2026-10-10">2026. 10. 10. 기준</time></div>
+        <a class="hero-start" href="#first">첫 번째 질문으로 <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="hero-art">
+        <canvas id="hero-vortex" role="img" aria-label="중심으로 모여 길게 뻗는 소용돌이를 표현한 장식적 개념 그림">소용돌이의 회전과 축 방향 늘어남을 표현한 개념 그림.</canvas>
+        <figcaption class="hero-caption"><span>FIG. 00</span> 중심으로 모이는 회전, 축 방향의 운동.<br>국소 흐름을 떠올리기 위한 개념 그림입니다.</figcaption>
+      </figure>
+    </section>
+
+    <div class="report-grid">
+      <aside class="toc" aria-label="리포트 목차">
+        <p class="toc-label">CONTENTS</p>
+        <nav>
+          <a class="toc-link" href="#first"><span>01</span> 무슨 일이 있었나</a>
+          <a class="toc-link" href="#infinity"><span>02</span> 무한대의 정확한 뜻</a>
+          <a class="toc-link" href="#equation"><span>03</span> 방정식 한 줄 읽기</a>
+          <a class="toc-link" href="#geometry"><span>04</span> 소용돌이를 만져보기</a>
+          <a class="toc-link" href="#energy"><span>05</span> 유한한 에너지의 역설</a>
+          <a class="toc-link" href="#proof"><span>06</span> 증명의 어려운 부분</a>
+          <a class="toc-link" href="#verification"><span>07</span> 지금 어디까지 왔나</a>
+          <a class="toc-link" href="#questions"><span>08</span> 남는 질문들</a>
+          <a class="toc-link" href="#sources"><span>09</span> 더 읽기와 출처</a>
+        </nav>
+        <p class="toc-note">필요한 준비물<br>함수 · 그래프 · 극한<br>그리고 조금의 호기심.</p>
+      </aside>
+
+      <article class="report" id="report" aria-label="나비에–스토크스 해설 리포트">
+        <section class="chapter" id="first">
+          <p class="section-kicker">01 / THE ANNOUNCEMENT</p>
+          <h2>“회전시키면 무한대가 된다”는 이야기, 맞을까?</h2>
+          <p class="lead">기억하신 이야기의 핵심은 맞습니다. 다만 <strong>어떤 회전이든 속도가 무한대가 되는 것은 아닙니다.</strong> 아주 특별하게 구성한 흐름이, 점성의 완화 작용을 견디며 유한한 시간 안에 매끈함을 잃을 수 있다는 발표입니다.</p>
+          <p>2026년 9월 8일 OpenAI는 나비에–스토크스의 존재성과 매끈함 문제에 대한 반례를 발표했습니다. 공개 ChatGPT 모델에 한 번 질문해서 얻은 결과라기보다는, 미공개 내부 모델과 다수의 AI 에이전트를 사용한 연구라고 설명합니다. <a class="source-ref" href="#source-1" aria-label="출처 1">[1]</a></p>
+          <div class="fact-box">
+            <p class="fact-label">발표된 구성의 네 가지 조건</p>
+            <div class="fact-grid">
+              <div class="fact-card"><span>01</span><h3>3차원 · 비압축</h3><p>밀도가 일정한 유체. 납작한 평면이 아니라 세 방향으로 움직입니다.</p></div>
+              <div class="fact-card"><span>02</span><h3>점성이 존재</h3><p>마찰에 해당하는 점성계수 ν가 양수인 나비에–스토크스입니다.</p></div>
+              <div class="fact-card"><span>03</span><h3>매끈한 외력</h3><p>정지 상태에서 출발합니다. 외력 자체에 무한대나 불연속을 넣지 않습니다.</p></div>
+              <div class="fact-card"><span>04</span><h3>속도는 무한히, 에너지는 유한하게</h3><p>특이 시각에 가까워질 때 최대 속도에 유한한 상한이 사라집니다.</p></div>
+            </div>
+            <p class="eq-caption">원문 Theorem 1.1의 내용을 읽기 쉽게 요약했습니다. 외력은 공간과 시간에서 제한된 영역에만 작용하도록 구성됩니다. <a class="source-ref" href="#source-2" aria-label="출처 2">[2]</a></p>
+          </div>
+          <div class="status-box"><span class="source-tag">2026. 10. 10. 확인</span><p><strong>발표와 최종 인정은 서로 다른 단계입니다.</strong> Clay 수학연구소는 평가 절차를 안내했고, 10월 6일에는 논문과 Lean 형식 증명의 대응에 관한 문제 제기가 나왔습니다. 이 글은 이를 포함해 발표 내용을 설명합니다. <a class="source-ref" href="#source-4">[4]</a> <a class="source-ref" href="#source-5">[5]</a></p></div>
+          <p>여기서 “반례”는 방정식을 틀렸다고 선언하는 말이 아닙니다. “좋은 출발 조건이면 흐름이 언제까지나 좋은 상태를 유지한다”는 기대에, 그 기대를 만족하지 않는 한 가지 사례를 제시한다는 뜻입니다. “모든 백조는 하얗다”는 문장을 검은 백조 한 마리가 뒤집듯이요.</p>
+        </section>
+
+        <section class="chapter" id="infinity">
+          <p class="section-kicker">02 / A FINITE DEADLINE</p>
+          <h2>무한히 오래 기다리지 않아도,<br>무한대에 다가갈 수 있다.</h2>
+          <p>“값이 무한대로 수렴한다”는 표현은 일상적으로 쓰지만, 여기서는 <strong>유한시간 발산</strong>이 더 정확합니다. 시간 자체가 무한해지는 것이 아니라, 정해진 시각 T에 가까워지는 동안 값이 끝없이 커집니다.</p>
+          <p>가장 간단한 예는 다음 함수입니다. 시간의 단위를 골라 T = 1로 놓아 봅시다.</p>
+          <div class="equation" aria-label="b(t)는 1 나누기 1 빼기 t, t는 0 이상 1 미만. t가 1로 왼쪽에서 접근하면 b(t)는 무한대로 발산">
+            <math display="block"><mrow><mi>b</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><mi>t</mi></mrow></mfrac><mo>,</mo><mspace width="1em"/><mn>0</mn><mo>≤</mo><mi>t</mi><mo>&lt;</mo><mn>1</mn><mo>;</mo><mspace width="1em"/><munder><mo>lim</mo><mrow><mi>t</mi><mo>→</mo><msup><mn>1</mn><mo>−</mo></msup></mrow></munder><mi>b</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mo>∞</mo></mrow></math>
+          </div>
+          <p class="eq-caption">t = 0.9이면 10, 0.99이면 100, 0.999이면 1,000. 모든 t &lt; 1에서 값은 유한하지만, 전체 구간을 덮는 유한한 최대치는 없습니다. t = 1에서 “속도 ∞”라는 정상적인 값을 갖는다는 뜻도 아닙니다.</p>
+          <figure class="figure-card">
+            <div class="figure-top"><span class="figure-label">FIG. 01 / 2D</span><h3 class="figure-title">커지는 것과 유한시간 발산은 다르다</h3></div>
+            <div class="viz-frame"><canvas id="blowup-chart" role="img" aria-label="유한시간 발산 함수 1/(1-t), 직선 1+t, 지수함수 e의 t제곱을 비교하는 그래프">1/(1-t)는 t가 1에 다가가면 발산하고, 1+t와 e^t는 t=1에서도 유한합니다.</canvas></div>
+            <div class="controls"><label for="time-slider">시각 t <output id="time-value" for="time-slider">0.60</output><input type="range" id="time-slider" min="0" max="0.99" step="0.01" value="0.6"></label><div id="blowup-values" class="readout" aria-live="polite"></div></div>
+            <figcaption class="figure-caption">주황: 1/(1 − t) · 청록: eᵗ · 청보라: 1 + t. 세로축은 10에서 잘라 표시합니다. 슬라이더의 숫자는 잘리지 않은 실제 함수값입니다. <strong>이 그래프는 극한의 예시이며, 논문의 속도 증가율을 재현하지 않습니다.</strong></figcaption>
+          </figure>
+          <p>실제 발표의 수학적 진술은 조금 더 조심스럽습니다. 공간의 각 지점에서 속력 |u|를 비교한 “그때의 최대 속력”을 U(t)라고 하면, 특이 시각에 접근할 때 <strong>아무리 큰 기준도 넘어서는 시각들이 있다</strong>는 뜻입니다.</p>
+          <div class="equation" aria-label="U(t)는 공간 전체에서 속력의 상한. t가 T로 접근할 때 U(t)의 극한 상한은 무한대">
+            <math display="block"><mrow><mi>U</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><munder><mo>sup</mo><mi mathvariant="bold">x</mi></munder><mo>|</mo><mi mathvariant="bold">u</mi><mo>(</mo><mi mathvariant="bold">x</mi><mo>,</mo><mi>t</mi><mo>)</mo><mo>|</mo><mo>,</mo><mspace width="1em"/><munder><mtext>lim sup</mtext><mrow><mi>t</mi><mo>↑</mo><mi>T</mi></mrow></munder><mi>U</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mo>∞</mo></mrow></math>
+          </div>
+          <p class="eq-caption">sup는 “상한”, lim sup는 “극한 상한”입니다. 단순 예시 b(t)처럼 계속 단조롭게 커져야 한다는 조건은 없습니다. 원문에서는 T = 1로 정규화합니다. <a class="source-ref" href="#source-2">[2]</a></p>
+        </section>
+
+        <section class="chapter" id="equation">
+          <p class="section-kicker">03 / READING THE EQUATION</p>
+          <h2>거대한 수식 안에는<br>뉴턴의 F = ma가 있다.</h2>
+          <p>나비에–스토크스 방정식은 물의 작은 조각마다 뉴턴의 운동 법칙을 적용한 것입니다. “얼마나 가속하는가”를 “무엇이 밀고 당기는가”와 연결합니다. 밀도를 일정하게 놓고 압력과 외력을 그 밀도로 나누면 이렇게 적습니다.</p>
+          <div class="equation main-equation" aria-label="속도의 시간 변화 더하기 흐름에 의한 속도 변화는 마이너스 압력의 기울기 더하기 점성계수 곱하기 속도의 라플라시안 더하기 외력. 속도의 발산은 0">
+            <math display="block"><mrow><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">u</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mo>(</mo><mi mathvariant="bold">u</mi><mo>·</mo><mo>∇</mo><mo>)</mo><mi mathvariant="bold">u</mi><mo>=</mo><mo>−</mo><mo>∇</mo><mi>p</mi><mo>+</mo><mi>ν</mi><mo>Δ</mo><mi mathvariant="bold">u</mi><mo>+</mo><mi mathvariant="bold">f</mi></mrow></math>
+            <math display="block"><mrow><mo>∇</mo><mo>·</mo><mi mathvariant="bold">u</mi><mo>=</mo><mn>0</mn></mrow></math>
+          </div>
+          <p class="eq-caption">u는 위치와 시간마다 주어진 속도 화살표, p는 밀도로 나눈 압력, ν(뉴)는 점성계수, f는 단위 질량당 외력입니다. 아래 줄은 비압축 조건입니다. <a class="source-ref" href="#source-3">[3]</a></p>
+          <div class="term-grid">
+            <div class="term-card"><span class="term-symbol">∂u / ∂t</span><h3>한 장소에서의 변화</h3><p>강 위의 한 다리에 서서, 그 아래 물살이 시간에 따라 달라지는지 봅니다.</p></div>
+            <div class="term-card"><span class="term-symbol">(u · ∇)u</span><h3>이동하며 겪는 변화</h3><p>물 조각이 느린 곳에서 빠른 곳으로 이동해도 가속합니다. 흐름이 자신을 바꾸는 비선형 항입니다.</p></div>
+            <div class="term-card"><span class="term-symbol">−∇p</span><h3>압력의 차이</h3><p>높은 압력이 낮은 압력 쪽으로 유체를 밉니다. 비압축 조건을 맞추는 데도 압력이 관여합니다.</p></div>
+            <div class="term-card"><span class="term-symbol">ν Δu</span><h3>점성의 완화</h3><p>서로 다른 속도로 움직이는 이웃 사이의 차이를 누그러뜨립니다. 번진 잉크처럼 거친 변화를 완화합니다.</p></div>
+            <div class="term-card"><span class="term-symbol">f</span><h3>바깥에서 가하는 힘</h3><p>유체의 내부 운동과 별도로 주어지는 힘입니다. 이번 구성에서는 이 힘의 매끈함이 중요한 조건입니다.</p></div>
+          </div>
+          <details class="math-note"><summary>∂, ∇, Δ는 낯설어도 괜찮습니다</summary><p>∂는 다른 조건을 고정하고 한 변수에 대한 변화율을 보는 기호입니다. ∇(나블라)는 x·y·z 방향의 변화율을 묶습니다. Δ(라플라시안)는 각 방향의 두 번째 변화율을 더합니다. 한 차원에서 매끈한 함수 v를 격자 간격 h로 관찰하면, Δv는 대략 <strong>[v(x + h) − 2v(x) + v(x − h)] / h²</strong>입니다. 중심값이 양옆 평균보다 높으면 이 값은 음수가 됩니다. 이런 식으로 점성이 속도 차이를 완화합니다.</p></details>
+          <p>문제의 긴장은 두 항에서 생깁니다. 유체는 이동하면서 속도 차이를 더 복잡하게 만들 수 있고, 점성은 그 차이를 완화하려 합니다. <strong>세 방향으로 늘어나고 비틀리는 흐름에서 완화가 항상 충분할까?</strong> 이것이 매끈함 문제의 중심 질문입니다.</p>
+        </section>
+
+        <section class="chapter" id="geometry">
+          <p class="section-kicker">04 / THE GEOMETRY OF A VORTEX</p>
+          <h2>소용돌이는 돌기만 하지 않는다.<br>안으로 모이고, 위아래로 늘어난다.</h2>
+          <p class="lead">커피를 젓는 장면을 떠올려 봅시다. 컵 위에서 보면 원운동이 눈에 들어옵니다. 하지만 3차원 흐름에서는 회전과 동시에 중심으로 다가가고, 축 방향으로 길어질 수도 있습니다.</p>
+          <p>회전의 빠르기에도 두 종류가 있습니다. 초당 몇 바퀴 도는가는 <strong>각속도 Ω</strong>와 관계있고, 원을 따라 실제로 얼마나 멀리 이동하는가는 <strong>접선 속력 v<sub>θ</sub></strong>입니다. Ω의 단위를 초당 라디안으로 적으면 v<sub>θ</sub> = Ωr이므로, 바퀴 수가 같아도 큰 원의 가장자리가 더 빨리 움직입니다.</p>
+          <div class="callout"><h3 class="callout-title">“길어진다”는 말의 두 의미</h3><p>물 조각은 축 방향으로 늘어날 수 있습니다. 그러나 원문에서 <strong>고속이 집중된 중심 영역</strong>은 반경과 축 길이가 모두 줄어듭니다. 반경이 더 빨리 줄어, 길이와 반경의 <strong>비율</strong>이 커지는 것입니다. 아래 3D 튜브는 같은 물질 덩어리의 변형을 보여 줍니다. <a class="source-ref" href="#source-2">[2, §2]</a></p></div>
+          <figure class="figure-card">
+            <div class="figure-top"><span class="figure-label">FIG. 02 / 2D SLICE</span><h3 class="figure-title">소용돌이를 위에서 내려다보면</h3></div>
+            <div class="viz-frame"><canvas id="flow2d" role="img" aria-label="회전과 중심 유입을 조절할 수 있는 3차원 흐름의 2차원 단면. 화살표는 속도 방향, 입자는 이동 경로를 표시">회전이 있을 때 입자는 원을 돌고, 중심 유입을 더하면 안쪽으로 나선형 이동합니다.</canvas></div>
+            <div class="controls"><label for="swirl">회전 Ω <output id="swirl-value" for="swirl">1.4</output><input type="range" id="swirl" min="0" max="3" step="0.1" value="1.4"></label><label for="inflow">중심 유입 a <output id="inflow-value" for="inflow">0.35</output><input type="range" id="inflow" min="0" max="1" step="0.05" value="0.35"></label><button type="button" id="flow-toggle">일시정지</button><button type="button" id="flow-reset">초기화</button></div>
+            <div id="flow-status" class="readout" aria-live="polite"></div>
+            <figcaption class="figure-caption">화살표는 순간 속도 방향, 점은 흐름을 따라가는 표시입니다. <strong>3D 비압축 흐름의 xy 단면을 그린 교육 모형</strong>입니다. 평면 안으로 모이는 만큼 화면 밖 z 방향으로 늘어나므로, 이 그림을 독립적인 2D 비압축 유체로 읽으면 안 됩니다. 입자의 재생성은 그림을 계속 관찰하기 위한 장치입니다.</figcaption>
+          </figure>
+          <p>이 구조를 표현하는 간단한 속도장은 다음과 같습니다. a ≥ 0과 Ω는 일정한 수로 두고, 물 조각의 위치를 (x, y, z)로 적습니다.</p>
+          <div class="equation" aria-label="속도장은 마이너스 ax 마이너스 오메가 y, 오메가 x 마이너스 ay, 2az">
+            <math display="block"><mrow><mi mathvariant="bold">u</mi><mo>=</mo><mo>(</mo><mo>−</mo><mi>a</mi><mi>x</mi><mo>−</mo><mi>Ω</mi><mi>y</mi><mo>,</mo><mspace width="0.4em"/><mi>Ω</mi><mi>x</mi><mo>−</mo><mi>a</mi><mi>y</mi><mo>,</mo><mspace width="0.4em"/><mn>2</mn><mi>a</mi><mi>z</mi><mo>)</mo></mrow></math>
+          </div>
+          <p>−ax와 −ay는 중심으로 모으고, −Ωy와 Ωx는 돌리고, 2az는 위아래로 늘립니다. x 방향 변화율은 −a, y 방향은 −a, z 방향은 2a. 합은 <strong>−a − a + 2a = 0</strong>입니다. 줄어든 두 방향을 세 번째 방향이 정확히 보상합니다.</p>
+          <figure class="figure-card dark-section">
+            <div class="figure-top"><span class="figure-label">FIG. 03 / INTERACTIVE 3D</span><h3 class="figure-title">같은 물 덩어리의 모양을 바꿔보기</h3></div>
+            <div class="viz-frame"><canvas id="vortex3d" tabindex="0" role="img" aria-label="반경이 줄고 축 방향으로 늘어나는 3차원 튜브. 드래그 또는 화살표 키로 회전. 아래 슬라이더로 변형 조절" aria-describedby="vortex-caption">반경은 e^(−s)배, 길이는 e^(2s)배가 되어 물질 튜브의 부피는 유지됩니다.</canvas></div>
+            <div class="controls"><label for="stretch">변형 s = at <output id="stretch-value" for="stretch">0.35</output><input type="range" id="stretch" min="0" max="1" step="0.01" value="0.35"></label><button type="button" id="vortex-toggle">자동 변화 시작</button><button type="button" id="vortex-reset">초기화</button></div>
+            <div id="vortex-stats" class="readout" aria-live="polite"></div>
+            <figcaption class="figure-caption" id="vortex-caption">드래그하거나 그림에 초점을 두고 화살표 키를 눌러 시점을 바꾸세요. 선은 물질 튜브의 모양을 나타내며 특정 시각의 유선과 같다는 뜻은 아닙니다. <strong>부피를 유지하는 기하학적 모형이며, 논문의 특이해를 계산한 시뮬레이션은 아닙니다.</strong> 변형은 유한한 범위에서만 표시합니다.</figcaption>
+          </figure>
+          <p>반경의 비율이 e<sup>−s</sup>이고 길이의 비율이 e<sup>2s</sup>이면, 원기둥의 부피 πr²L에는 다음 상쇄가 생깁니다. e는 약 2.718인 지수함수의 밑입니다. 지수의 덧셈 법칙만 알면 읽을 수 있습니다.</p>
+          <div class="equation" aria-label="부피 비는 반경 비의 제곱 곱하기 길이 비, e의 마이너스 2s제곱 곱하기 e의 2s제곱은 1">
+            <math display="block"><mrow><mfrac><mi>V</mi><msub><mi>V</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mrow><mo>(</mo><mfrac><mi>r</mi><msub><mi>r</mi><mn>0</mn></msub></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mfrac><mi>L</mi><msub><mi>L</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn><mi>s</mi></mrow></msup><mo>·</mo><msup><mi>e</mi><mrow><mn>2</mn><mi>s</mi></mrow></msup><mo>=</mo><mn>1</mn></mrow></math>
+          </div>
+          <div class="callout"><h3 class="callout-title">그림에서 증명으로 뛰어넘지 않기</h3><p>위 모형의 a와 Ω는 상수이며, 유한한 시간에는 무한대가 생기지 않습니다. 반경이 줄어도 Ω가 일정하면 v<sub>θ</sub> = Ωr은 오히려 작아집니다. 실제 발표의 핵심인 회전의 증폭, 점성과의 균형, 외력의 매끈함은 이 간단한 그림만으로 증명되지 않습니다.</p></div>
+          <details class="math-note"><summary>스케이트 선수가 팔을 모으면 빨라지는 것과 같을까요?</summary><p>비슷한 직관은 얻을 수 있습니다. 외부 토크가 없는 이상적인 회전 입자에서는 질량당 각운동량 r v<sub>θ</sub>가 일정하므로, r이 작아지면 v<sub>θ</sub>가 커집니다. 그러나 점성 유체는 주변과 운동량을 주고받고 외력도 받을 수 있습니다. 이 보존 법칙을 반례의 각 물 조각에 그대로 적용할 수는 없습니다. 스케이트 비유는 회전 증폭의 가능성을 상상하게 해 주지만, 유한시간 발산을 보장하지 않습니다.</p></details>
+        </section>
+
+        <section class="chapter" id="energy">
+          <p class="section-kicker">05 / THE ENERGY PARADOX</p>
+          <h2>한 곳의 무한대와<br>전체의 유한함은 공존할 수 있다.</h2>
+          <p>질량 m인 물체의 운동에너지는 ½mv²입니다. 속력이 두 배면 에너지는 네 배입니다. 그렇다면 속력이 끝없이 커질 때 에너지도 반드시 무한대가 되지 않을까요?</p>
+          <p>그 속력으로 움직이는 <strong>물의 양</strong>을 함께 보아야 합니다. 유체의 전체 에너지는 공간의 작은 조각마다 ½ × 밀도 × 속력² × 부피를 계산해서 모두 더한 값입니다.</p>
+          <div class="equation" aria-label="전체 에너지 E(t)는 밀도 rho 나누기 2 곱하기 공간 전체에서 속력 제곱의 적분">
+            <math display="block"><mrow><mi>E</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>ρ</mi><mn>2</mn></mfrac><msub><mo>∫</mo><msup><mi mathvariant="double-struck">R</mi><mn>3</mn></msup></msub><mo>|</mo><mi mathvariant="bold">u</mi><mo>(</mo><mi mathvariant="bold">x</mi><mo>,</mo><mi>t</mi><mo>)</mo><msup><mo>|</mo><mn>2</mn></msup><mo>d</mo><mi>V</mi></mrow></math>
+          </div>
+          <p class="eq-caption">∫는 아주 작은 부피 조각들의 값을 합하는 기호입니다. ρ(로)는 일정한 밀도입니다. “가장 높은 값”과 “전체를 더한 값”은 다른 정보를 담습니다.</p>
+          <p>논문과 독립적인 숫자 실험을 해 봅시다. 밀도를 1로 놓고, 고속 영역의 대표 속력은 n, 그 영역의 부피는 1/n³이라고 가정합니다. 그 부분의 에너지는 대략 ½ × n² × 1/n³ = 1/(2n)입니다.</p>
+          <div class="comparison-table"><table><caption>교육용 척도 예시 · 실제 반례의 증가율이 아닙니다</caption><thead><tr><th scope="col">n</th><th scope="col">대표 속력</th><th scope="col">고속 영역 부피</th><th scope="col">그 부분의 에너지</th></tr></thead><tbody><tr><th scope="row">1</th><td>1</td><td>1</td><td>0.5</td></tr><tr><th scope="row">10</th><td>10</td><td>0.001</td><td>0.05</td></tr><tr><th scope="row">100</th><td>100</td><td>0.000001</td><td>0.005</td></tr><tr><th scope="row">1,000</th><td>1,000</td><td>0.000000001</td><td>0.0005</td></tr></tbody></table></div>
+          <p>속력은 커지지만 빠른 영역이 더 가파르게 줄어들면, 그 영역이 전체 에너지에 보태는 양은 작아질 수 있습니다. 이 계산은 발산과 유한한 에너지 사이에 <strong>논리적 모순이 없다는 것</strong>을 보여 줍니다. 나비에–스토크스를 만족한다는 증명은 별도로 필요합니다.</p>
+          <div class="callout"><h3 class="callout-title">두 가지 “부피”를 구별하세요</h3><p>3D 그림에서 추적한 <strong>같은 물질 덩어리</strong>는 비압축성 때문에 부피가 유지됩니다. 여기서 줄어드는 것은 <strong>그 순간 높은 속도가 집중된 공간 영역</strong>입니다. 그 영역을 이루는 물 조각은 시간에 따라 바뀔 수 있습니다.</p></div>
+          <blockquote class="pullquote">평균이 온화하다고 해서,<br>모든 지점이 온화한 것은 아니다.</blockquote>
+          <p>에너지가 유한하다는 말이 “에너지가 언제나 일정하다”는 뜻도 아닙니다. 점성은 에너지를 소모하고 외력은 에너지를 공급할 수 있습니다. 이번 발표의 조건은 시간에 따른 전체 에너지가 어떤 유한한 상한 아래에 머문다는 것입니다.</p>
+        </section>
+
+        <section class="chapter" id="proof">
+          <p class="section-kicker">06 / WHERE THE HARD PART LIVES</p>
+          <h2>무한한 속도를 써 넣는 것은 쉽다.<br>매끈한 힘을 남기는 것은 어렵다.</h2>
+          <p>앞서의 b(t) = 1/(1 − t)를 임의로 속도에 넣는 것만으로는 반례가 완성되지 않습니다. 원하는 u와 p를 고른 뒤 방정식을 거꾸로 풀어 f를 정의할 수는 있지만, 그렇게 나온 힘이 특이 시각에서 무한해질 수 있기 때문입니다.</p>
+          <div class="equation" aria-label="외력 f는 속도의 시간 미분 더하기 대류항 더하기 압력 기울기 빼기 점성항">
+            <math display="block"><mrow><mi mathvariant="bold">f</mi><mo>=</mo><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">u</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mo>(</mo><mi mathvariant="bold">u</mi><mo>·</mo><mo>∇</mo><mo>)</mo><mi mathvariant="bold">u</mi><mo>+</mo><mo>∇</mo><mi>p</mi><mo>−</mo><mi>ν</mi><mo>Δ</mo><mi mathvariant="bold">u</mi></mrow></math>
+          </div>
+          <p>각 항이 매우 커져도 그 조합은 매끈해야 합니다. 초등적인 비유로, 1/(1 − t) − 1/(1 − t)는 t &lt; 1에서 정확히 0입니다. 큰 항 둘이 정확히 상쇄되면 남는 값은 작을 수 있습니다. 실제 증명에서는 벡터, 공간 변화율, 오차항까지 다루므로 훨씬 복잡합니다. <a class="source-ref" href="#source-2">[2]</a></p>
+          <p>“남는 값이 작다”만으로도 부족합니다. 특이 시각을 포함해 외력과 그 모든 차수의 변화율이 매끈하게 이어져야 합니다. 또한 흐름은 비압축 조건을 만족하고, 전체 공간의 에너지도 제어되어야 합니다. 아름다운 소용돌이 그림과 수학적 반례 사이의 거리가 여기 있습니다.</p>
+          <div class="split"><div class="mini-card"><p class="fact-label">관찰</p><h3>화면의 숫자가 커진다</h3><p>계산 격자가 거칠거나 오차가 증폭되어도 숫자는 폭주합니다. 시뮬레이션은 후보를 찾거나 직관을 얻는 데 도움이 됩니다.</p></div><div class="mini-card"><p class="fact-label">증명</p><h3>어떤 상한도 충분하지 않다</h3><p>방정식과 모든 조건을 충족하는 정확한 흐름에 대해, 유한한 속도 상한이 없음을 보여야 합니다. 화면의 큰 숫자만으로는 부족합니다.</p></div></div>
+          <p>이 리포트의 그림은 이 조건들을 검증하지 않습니다. 회전, 극한, 부피, 에너지의 관계를 독자가 직접 살펴보는 도구입니다. 고등학교 수준에서 이해할 수 있는 것은 <strong>왜 이런 반례가 가능해 보이는지, 그리고 무엇을 증명해야 하는지</strong>까지입니다. 원문의 전체 증명에는 고급 해석학이 필요합니다.</p>
+        </section>
+
+        <section class="chapter" id="verification">
+          <p class="section-kicker">07 / READING A CLAIM CAREFULLY</p>
+          <h2>증명이 공개됐다는 것과<br>검토가 끝났다는 것은 다르다.</h2>
+          <ol class="number-list">
+            <li><time datetime="2026-09-08">2026. 09. 08.</time><h3>OpenAI의 발표와 자료 공개</h3><p>논문과 Lean 4 형식 증명 저장소가 공개됐습니다. 저장소는 전체 공간과 주기적인 공간에서 Clay의 C·D 대안을 증명한다고 명시합니다. <a class="source-ref" href="#source-1">[1]</a> <a class="source-ref" href="#source-6">[6]</a></p></li>
+            <li><time datetime="2026-09-11">2026. 09. 11.</time><h3>Clay의 신중한 평가 안내</h3><p>Clay는 발표를 환영하면서 결과와 공로를 평가하는 절차를 서두르지 않겠다고 설명했습니다. 이 성명은 최종 상 수여 공고가 아닙니다. <a class="source-ref" href="#source-4">[4]</a></p></li>
+            <li><time datetime="2026-10-06">2026. 10. 06.</time><h3>원문과 형식 증명의 대응에 관한 문제 제기</h3><p>Bastounis, Circelli, Hansen의 사전논문은 자연어 논문과 Lean 사이에서 일부 보조정리의 가정과 증명 경로가 달라진다고 지적했습니다. 저자들은 원문 증명 자체의 옳고 그름을 판단하지 않는다고 명시합니다. 따라서 이를 “반례가 틀렸다고 입증됐다”로 읽으면 지나칩니다. <a class="source-ref" href="#source-5">[5]</a></p></li>
+          </ol>
+          <p>Lean은 사람이 읽는 논증을 엄격한 형식 언어로 적고 논리적 단계를 확인하는 도구입니다. 하지만 “코드에 적힌 명제가 증명됐다”와 “원래 글의 모든 단계가 그대로 검증됐다”는 별개의 질문입니다. 원문과 형식화의 대응을 살피는 이유가 여기에 있습니다.</p>
+          <details class="math-note"><summary>그 차이를 고등학교 수학으로 비유하면</summary><p>어떤 글이 “실수 x 모두에 대해 식 A가 성립한다”고 했는데, 형식 코드가 “x ≥ 0인 경우에 식 A가 성립한다”를 증명했다면 코드는 옳아도 글의 더 넓은 주장을 보장하지는 못합니다. <strong>이것은 설명을 위한 비유이며, 실제 논문에서 이런 x 조건 오류가 발견됐다는 뜻은 아닙니다.</strong> 실제 문제 제기 중 하나는 함수의 변화를 제어할 때 원문과 Lean이 요구하는 미분의 차수가 다르다는 것입니다. <a class="source-ref" href="#source-5">[5]</a></p></details>
+          <div class="status-box"><span class="source-tag">이 글의 표현 기준</span><p>“매끈한 외력이 있는 경우의 유한시간 발산 구성을 <strong>발표했다</strong>.” “원문과 형식 증명의 대응에 관한 <strong>검토가 이어지고 있다</strong>.” 이 두 문장을 함께 기억하면 발표를 축소하지 않으면서도 최종 인정과 구별할 수 있습니다.</p></div>
+        </section>
+
+        <section class="chapter" id="questions">
+          <p class="section-kicker">08 / QUESTIONS TO TAKE AWAY</p>
+          <h2>물을 다시 바라보게 하는<br>네 가지 질문.</h2>
+          <div class="question-list">
+            <details open><summary>컵을 세게 저으면 정말 속도가 무한대가 되나요?</summary><p>그 결론은 나오지 않습니다. 발표는 특정 조건을 정교하게 설계한 수학적 흐름에 관한 것입니다. 분자로 이루어진 실제 물이 무한한 속도로 움직인다는 예측으로 읽을 수는 없습니다.</p></details>
+            <details open><summary>외력이 있다면 밀레니엄 문제의 반례가 아닌가요?</summary><p>공식 문제의 C·D 대안은 조건에 맞는 매끈한 외력을 허용합니다. 반면 A·B는 외력이 없는 경우의 전역 매끈함을 묻습니다. 따라서 외력이 있는 C·D의 구성은 공식 문제의 한 대안을 다루지만, 무외력 A·B를 부정한 것과 같지는 않습니다. <a class="source-ref" href="#source-3">[3]</a> <a class="source-ref" href="#source-6">[6]</a></p></details>
+            <details open><summary>왜 굳이 3차원인가요?</summary><p>평면에는 없는 축 방향 늘어남이 회전의 구조를 바꿀 수 있기 때문입니다. 적절한 매끈한 조건 아래 2D 비압축 나비에–스토크스의 전역 매끈성은 알려져 있습니다. 이 글의 2D 그림은 3D 흐름을 잘라 본 단면입니다. <a class="source-ref" href="#source-3">[3]</a></p></details>
+            <details open><summary>방정식이 쓸모없어지는 건가요?</summary><p>반례 하나는 모든 유체 계산을 폐기하라는 뜻이 아닙니다. 모형이 언제까지 매끈하게 유지된다고 보장할 수 있는지 그 경계를 묻습니다. 특이 시각 이후의 일반화된 해, 실제 분자 규모의 물리, 외력 없는 흐름의 문제도 서로 구별해야 합니다.</p></details>
+          </div>
+          <div class="closing"><span class="closing-mark" aria-hidden="true">∿</span><p>이 이야기의 매력은 물이 갑자기 마법처럼 폭주한다는 데 있지 않습니다. <strong>전체가 유한해도 한 곳은 끝없이 커질 수 있다는 것, 그리고 부드러운 규칙에서도 극단적인 결과가 가능한지 묻는다는 것.</strong> 물 한 컵 속에, 우리가 아직 다 읽지 못한 수학이 있습니다.</p></div>
+        </section>
+
+        <section class="chapter" id="sources">
+          <p class="section-kicker">09 / REFERENCES &amp; READING NOTES</p>
+          <h2>발표로 돌아가는 길.</h2>
+          <p>1차 자료를 우선 확인했습니다. 최근 연구의 상태는 바뀔 수 있으므로, 이 글의 확인 시점은 <time datetime="2026-10-10">2026년 10월 10일</time>입니다. 그림·숫자 실험·비유는 이 리포트에서 만든 교육 자료이며 원문의 도표를 복제하지 않았습니다.</p>
+          <ol class="source-list">
+            <li id="source-1"><span class="source-tag">발표 · 2026. 09. 08.</span><a href="https://openai.com/index/navier-stokes-solution/" target="_blank" rel="noopener noreferrer">OpenAI — On the Navier–Stokes Millennium Prize Problem ↗</a><p class="source-note">발표 시점, 사용 시스템, 결과의 범위에 대한 연구 주체의 설명.</p></li>
+            <li id="source-2"><span class="source-tag">연구 원문 · 166쪽</span><a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf" target="_blank" rel="noopener noreferrer">OpenAI — Finite Time Blowup for Navier–Stokes ↗</a><p class="source-note">Theorem 1.1, §2의 물리적 설명, §10의 전체 공간 구성. 전체 증명의 정확성을 이 리포트가 독립 검증했다는 뜻은 아닙니다.</p></li>
+            <li id="source-3"><span class="source-tag">공식 문제 정의</span><a href="https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf" target="_blank" rel="noopener noreferrer">Charles L. Fefferman — Existence and Smoothness of the Navier–Stokes Equation ↗</a><p class="source-note">방정식, 초기 조건, 외력 조건, A·B·C·D의 차이, 2D와 3D의 구별.</p></li>
+            <li id="source-4"><span class="source-tag">Clay 성명 · 2026. 09. 11.</span><a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener noreferrer">Clay Mathematics Institute — Navier-Stokes Announcement ↗</a><p class="source-note">발표에 대한 반응과 최종 평가 절차에 관한 안내.</p></li>
+            <li id="source-5"><span class="source-tag">사전논문 v1 · 2026. 10. 06.</span><a href="https://arxiv.org/html/2610.08144v1" target="_blank" rel="noopener noreferrer">Bastounis · Circelli · Hansen — Navier–Stokes lost in translation ↗</a><p class="source-note">§1의 검토 범위와 disclaimer, §3의 원문·Lean 불일치 사례. 결과 자체의 반증을 주장하는 논문으로 소개하지 않았습니다.</p></li>
+            <li id="source-6"><span class="source-tag">공식 형식 증명 저장소</span><a href="https://github.com/openai/NavierStokesAndEuler" target="_blank" rel="noopener noreferrer">openai / NavierStokesAndEuler ↗</a><p class="source-note">C·D에 대한 목표 명제, Lean 빌드 및 독립 검증 안내. 별도의 무외력 Euler 결과도 있으므로 Navier–Stokes와 혼동하지 마세요.</p></li>
+          </ol>
+          <details class="math-note"><summary>표현과 시각화의 범위</summary><p>수식은 브라우저의 MathML로 표시하며 외부 수식 서버를 사용하지 않습니다. 2D 흐름과 3D 튜브는 일정한 a·Ω를 가진 국소 기하 모형이고, 전 공간에서 유한 에너지를 갖는 실제 반례가 아닙니다. 발산 그래프와 에너지 표의 증가율도 교육용 예시입니다. 모션 감소 설정을 존중하며, 인쇄 메뉴로 현재 그림을 포함한 PDF를 저장할 수 있습니다.</p></details>
+        </section>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer"><span>THE FLUID NOTE <span aria-hidden="true">/</span> Navier-Stokes_Equations</span><span>한국어 해설 · 수식 · 2D &amp; 3D</span><a href="https://github.com/aidevksh/Navier-Stokes_Equations" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="LICENSE">Apache 2.0</a><a href="#intro">처음으로 ↑</a></footer>
+  <noscript><p class="noscript-note">JavaScript가 꺼져 있어 인터랙티브 그림은 실행되지 않습니다. 본문, 수식, 표와 각 그림의 대체 설명은 읽을 수 있습니다.</p></noscript>
+</body>
+</html>

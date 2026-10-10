@@ -1,0 +1,17 @@
+{
+  "name": "navier-stokes_equations",
+  "version": "1.0.0",
+  "description": "Korean educational HTML report on Navier–Stokes finite-time blowup with interactive 2D and 3D visuals",
+  "scripts": {
+    "check": "node --check assets/visuals.js && node --check assets/report.js && node scripts/check.cjs",
+    "test:browser": "node scripts/browser-test.cjs",
+    "test": "npm run check && npm run test:browser"
+  },
+  "keywords": ["navier-stokes", "mathematics", "korean", "education", "visualization"],
+  "author": "AIDevKSH",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "devDependencies": {
+    "playwright": "1.64.0"
+  }
+}

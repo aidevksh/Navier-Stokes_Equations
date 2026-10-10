@@ -1,0 +1,2132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <!-- Single-file iframe edition. Generated with npm run build:embed. Apache-2.0. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c26">
+  <meta name="description" content="고등학교 수학으로 읽는 나비에–스토크스 반례 발표. 유한시간 발산, 소용돌이, 점성, 유한한 에너지를 2D·3D 시각화와 수식으로 이해합니다.">
+  <title>소용돌이의 끝에서 — 나비에–스토크스와 무한대</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22%23101c26%22%2F%3E%3Cpath%20d%3D%22M10%2034c4-20%2012-20%2017%200s13%2020%2018%200%209-20%2011-9%22%20fill%3D%22none%22%20stroke%3D%22%234ee3c1%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
+  <style>
+/* A quiet, readable scientific longread. No remote fonts or assets required. */
+:root {
+  color-scheme: light;
+  --paper: #f2f0e9;
+  --paper-raised: #faf9f4;
+  --ink: #101c26;
+  --ink-soft: #364854;
+  --muted: #647078;
+  --line: #d4d9d5;
+  --navy: #101f2b;
+  --navy-light: #1a3140;
+  --orange: #ffa862;
+  --orange-dark: #a84b17;
+  --cyan: #4ee3c1;
+  --serif: "Noto Serif CJK KR", "Noto Serif KR", "AppleMyungjo", "Batang", Georgia, serif;
+  --sans: "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", system-ui, sans-serif;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.85;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: #ffa86280; color: var(--ink); }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .23em; }
+a:hover { color: var(--orange-dark); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button, a, input, select, summary { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid var(--orange-dark); outline-offset: 5px; }
+img, svg, canvas { display: block; max-width: 100%; }
+canvas { touch-action: pan-y; }
+figure { margin: 0; }
+h1, h2, h3, p { margin-top: 0; }
+p { margin-bottom: 1.25em; }
+strong { font-weight: 700; }
+small { font-size: .82em; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: fixed;
+  z-index: 50;
+  top: 12px;
+  left: 20px;
+  padding: 10px 18px;
+  transform: translateY(-150%);
+  border: 1px solid var(--ink);
+  background: var(--paper-raised);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.skip-link:focus { transform: translateY(0); }
+#reading-progress {
+  position: fixed;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--orange-dark);
+  transform-origin: left;
+  pointer-events: none;
+}
+.site-header {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 27px 48px;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.2;
+}
+.brand {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  margin-right: auto;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: .12em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand::before {
+  content: "";
+  flex: 0 0 13px;
+  width: 13px;
+  height: 13px;
+  background: var(--orange-dark);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px var(--paper);
+  outline: 1px solid var(--orange-dark);
+}
+.brand:has(.brand-symbol)::before { display: none; }
+.brand-symbol { color: var(--orange-dark); font-family: var(--serif); font-size: 30px; font-weight: 400; line-height: .6; }
+.brand-number { margin-left: 5px; padding-left: 15px; border-left: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: 10px; font-weight: 400; letter-spacing: .025em; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a { color: var(--ink-soft); font-size: 13px; text-decoration: none; }
+.nav-links a:hover { color: var(--orange-dark); }
+.header-action, .print-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background .15s ease, color .15s ease;
+}
+.header-action:hover, .print-button:hover { background: var(--ink); color: var(--paper); }
+.hero {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 78px 48px 68px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+  gap: 32px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow, .section-kicker {
+  margin: 0 0 24px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.eyebrow { color: var(--orange-dark); }
+.hero h1 {
+  margin: 0 0 30px;
+  font-family: var(--serif);
+  font-size: clamp(42px, 4.7vw, 68px);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -.065em;
+  word-break: keep-all;
+}
+.accent { color: var(--orange-dark); }
+.hero-deck {
+  max-width: 500px;
+  margin-bottom: 31px;
+  color: var(--ink-soft);
+  font-size: 17px;
+  line-height: 1.85;
+  letter-spacing: -.015em;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 19px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: .02em;
+}
+.hero-meta span + span { border-left: 1px solid var(--line); padding-left: 19px; }
+.hero-meta time { border-left: 1px solid var(--line); padding-left: 19px; }
+.hero-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 31px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--ink);
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.hero-start span { color: var(--orange-dark); font-size: 17px; }
+.hero-start:hover { border-color: var(--orange-dark); }
+.hero-art {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--navy);
+  border-radius: 50% 50% 3px 3px;
+}
+#hero-vortex { width: 100%; height: 440px; }
+.hero-caption {
+  position: relative;
+  margin: 0;
+  padding: 18px 24px;
+  color: #b7c8cd;
+  border-top: 1px solid #ffffff18;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.hero-caption strong { color: var(--cyan); font-weight: 500; }
+.hero-caption > span { margin-right: 13px; color: var(--orange); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; }
+.report-grid {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 860px);
+  justify-content: center;
+  gap: 70px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 68px 48px 0;
+}
+.toc { align-self: start; position: sticky; top: 34px; padding: 11px 0; }
+.toc h2, .toc-title, .toc-label {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.toc ul, .toc ol { list-style: none; padding: 0; margin: 0; }
+.toc li { margin: 0 0 13px; }
+.toc > nav { display: flex; flex-direction: column; gap: 13px; }
+.toc-link {
+  display: block;
+  padding: 3px 0 3px 14px;
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.75;
+  text-decoration: none;
+  transition: color .15s ease, border-color .15s ease;
+}
+.toc-link:hover, .toc-link.active, .toc-link.is-active, .toc-link[aria-current] {
+  border-left-color: var(--orange-dark);
+  color: var(--ink);
+}
+.toc-link.active, .toc-link.is-active, .toc-link[aria-current] { font-weight: 650; }
+.toc-link > span { margin-right: 8px; color: var(--muted); font-family: var(--mono); font-size: 9px; }
+.toc-note { margin: 34px 0 0; padding-top: 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; line-height: 2; }
+.report { min-width: 0; }
+.chapter { margin-bottom: 84px; scroll-margin-top: 36px; }
+.section-kicker { color: var(--orange-dark); margin-bottom: 15px; }
+.chapter h2 {
+  margin-bottom: 28px;
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 37px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -.045em;
+}
+.chapter h3 {
+  margin: 34px 0 16px;
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.5;
+  letter-spacing: -.025em;
+}
+.report p, .report > section > ul, .report > section > ol { max-width: 760px; }
+.report .lead {
+  color: var(--ink-soft);
+  font-size: 20px;
+  line-height: 1.8;
+  letter-spacing: -.022em;
+}
+.source-ref {
+  margin-left: .15em;
+  color: var(--orange-dark);
+  font-family: var(--mono);
+  font-size: .65em;
+  vertical-align: super;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.source-ref:hover { text-decoration: underline; }
+.fact-box {
+  margin: 33px 0;
+  padding: 30px 32px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--orange-dark);
+}
+.fact-label {
+  margin: 0 0 14px;
+  color: var(--orange-dark);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+.fact-box > p:last-child, .fact-card p:last-child { margin-bottom: 0; }
+.fact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.fact-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.fact-card h3 { margin: 0 0 9px; font-size: 15px; }
+.fact-card .fact-label { font-size: 10px; }
+.fact-card > span { display: block; margin-bottom: 6px; color: var(--orange-dark); font-family: var(--mono); font-size: 10px; }
+.fact-box > .eq-caption { margin: 20px 0 0; text-align: left; }
+.status-box {
+  margin: 27px 0;
+  padding: 22px 26px;
+  border: 1px solid #dcc6b2;
+  border-left: 3px solid var(--orange-dark);
+  background: #eee5d9;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.status-box p:last-child { margin-bottom: 0; }
+.status-box strong { color: var(--ink); }
+.status-box > .source-tag { margin-bottom: 13px; border-color: #cfab8b; color: var(--orange-dark); font-weight: 600; }
+.callout {
+  margin: 30px 0;
+  padding: 24px 28px;
+  background: #e5eae4;
+  border-left: 3px solid #498576;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.85;
+}
+.callout-title { display: block; margin-bottom: 9px; color: var(--ink); font-weight: 700; }
+.callout p:last-child { margin-bottom: 0; }
+.pullquote {
+  margin: 40px 0;
+  padding: 26px 0 26px 27px;
+  border-left: 2px solid var(--orange-dark);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 25px;
+  line-height: 1.75;
+  letter-spacing: -.02em;
+}
+.pullquote p { margin: 0; }
+.pullquote cite { display: block; margin-top: 13px; color: var(--muted); font: 12px/1.7 var(--sans); }
+.equation {
+  margin: 31px 0 12px;
+  padding: 28px 24px;
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  text-align: center;
+  font-size: 24px;
+  overscroll-behavior-x: contain;
+}
+.equation math { min-width: max-content; margin: 0 auto; font-size: inherit; line-height: 1.8; }
+math { font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", serif; }
+math[display="block"] { display: block; margin-block: .6em; }
+.eq-caption {
+  margin: 0 0 25px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: center;
+}
+.term-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 24px 0 34px; }
+.term-card {
+  padding: 19px 21px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.term-card strong, .term-card h3 { display: block; margin: 0 0 6px; color: var(--ink); font-size: 15px; }
+.term-card p { margin: 0; color: var(--ink-soft); }
+.term-card math { font-size: 20px; }
+.term-symbol { display: block; margin-bottom: 11px; color: var(--orange-dark); font-family: var(--mono); font-size: 18px; font-weight: 500; line-height: 1.5; }
+.figure-card {
+  margin: 34px 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper-raised);
+}
+.figure-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 21px;
+  padding: 21px 25px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.figure-label {
+  flex: 0 0 auto;
+  color: var(--orange-dark);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.figure-title { margin: 0; font-size: 16px; font-weight: 650; line-height: 1.6; letter-spacing: -.02em; }
+.figure-top h3 { margin: 0; font-size: 16px; }
+.viz-frame { position: relative; min-width: 0; overflow: hidden; background: #eceee9; }
+.viz-frame canvas { width: 100%; height: 390px; }
+.viz-frame canvas:focus-visible { outline-offset: -5px; }
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px 21px;
+  padding: 18px 25px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.controls label { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: var(--ink-soft); }
+.controls label:has(input[type="range"]) { flex: 1 1 200px; }
+.controls input[type="range"] {
+  flex: 1 1 100px;
+  min-width: 80px;
+  width: 120px;
+  max-width: 240px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--orange-dark);
+  cursor: pointer;
+}
+.controls input[type="checkbox"] { accent-color: var(--orange-dark); }
+.controls button {
+  min-height: 36px;
+  padding: 7px 13px;
+  border: 1px solid var(--ink-soft);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.controls button:hover { background: var(--ink); color: var(--paper); }
+.controls button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.controls select { max-width: 100%; padding: 7px; border: 1px solid var(--line); background: var(--paper); font-size: 12px; }
+.controls output { min-width: 30px; font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.readout { display: flex; flex-wrap: wrap; gap: 10px 21px; padding: 16px 25px; border-top: 1px solid var(--line); }
+.controls > .readout { flex: 1 1 auto; padding: 0; border: 0; }
+.viz-stat { display: inline-flex; flex-direction: column; flex: 1 1 85px; gap: 3px; min-width: 0; }
+.viz-stat > span { color: var(--muted); font-size: 10px; line-height: 1.5; }
+.viz-stat > strong { color: var(--ink); font-family: var(--mono); font-size: 16px; font-weight: 500; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 21px; padding: 0 25px 17px; color: var(--muted); font-size: 11px; line-height: 1.8; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i, .legend .swatch { display: inline-block; width: 14px; height: 3px; background: currentColor; border-radius: 2px; }
+.figure-caption { margin: 0; padding: 17px 25px 21px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.9; }
+.figure-caption strong { color: var(--ink-soft); }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 30px 0; }
+.mini-card { min-width: 0; padding: 25px; border: 1px solid var(--line); background: var(--paper-raised); font-size: 14px; line-height: 1.85; }
+.mini-card h3 { margin: 0 0 13px; font-size: 18px; }
+.mini-card p:last-child { margin-bottom: 0; }
+.mini-card .equation { margin: 18px 0; padding: 14px 10px; background: var(--paper); font-size: 20px; }
+.comparison-table { width: 100%; overflow-x: auto; margin: 30px 0; border: 1px solid var(--line); }
+.comparison-table table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.8; }
+.comparison-table caption { padding: 14px 19px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 11px; text-align: left; }
+.comparison-table th, .comparison-table td { padding: 17px 19px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.comparison-table thead th { background: var(--ink); color: var(--paper); font-size: 12px; font-weight: 600; }
+.comparison-table tbody th { min-width: 135px; font-weight: 650; }
+.comparison-table tr:last-child th, .comparison-table tr:last-child td { border-bottom: 0; }
+.comparison-table tbody tr:nth-child(even) { background: #e9ebe5; }
+.dark-section {
+  margin: 42px 0 76px;
+  padding: 42px 36px;
+  border-radius: 3px;
+  background: var(--navy);
+  color: #e5eee9;
+  color-scheme: dark;
+}
+.dark-section .section-kicker, .dark-section .figure-label { color: var(--orange); }
+.dark-section .lead, .dark-section > p { color: #b8cbd0; }
+.dark-section h2 { color: #f2f0e9; }
+.dark-section h3 { color: #e5eee9; }
+.dark-section a:hover { color: var(--orange); }
+.dark-section .source-ref { color: var(--orange); }
+.dark-section .figure-card { background: var(--navy-light); border-color: #3b5361; }
+.dark-section .figure-top, .dark-section .controls, .dark-section .figure-caption { border-color: #3b5361; }
+.dark-section .viz-frame { background: #11222e; }
+.dark-section .figure-title, .dark-section .controls label { color: #e5eee9; }
+.dark-section .figure-caption, .dark-section .legend, .dark-section .eq-caption { color: #afc3ca; }
+.dark-section .figure-caption strong { color: #e5eee9; }
+.dark-section .controls button { border-color: #76929f; color: #e5eee9; }
+.dark-section .controls button:hover, .dark-section .controls button[aria-pressed="true"] { background: var(--orange); border-color: var(--orange); color: var(--ink); }
+.dark-section .controls input { accent-color: var(--orange); }
+.dark-section .controls select { background: var(--navy); border-color: #76929f; color: #e5eee9; }
+.dark-section :focus-visible { outline-color: var(--orange); }
+.dark-section .equation { background: #11222e; border-color: #3b5361; }
+.dark-section .callout { color: #d1dfdf; background: #233d48; border-left-color: var(--cyan); }
+.dark-section .callout-title { color: var(--cyan); }
+.dark-section .status-box { background: #233d48; border-color: var(--orange); }
+.dark-section .status-box strong { color: var(--orange); }
+.figure-card.dark-section { margin: 34px 0; padding: 0; border-color: #3b5361; background: var(--navy-light); }
+.dark-section .readout { border-color: #3b5361; }
+.dark-section .viz-stat > span { color: #afc3ca; }
+.dark-section .viz-stat > strong { color: var(--cyan); }
+.lab-grid { display: grid; grid-template-columns: 1fr; gap: 22px; margin-top: 27px; }
+.lab-grid .figure-card { margin: 0; }
+.number-list { list-style: none; counter-reset: numbered; margin: 28px 0; padding: 0; }
+.number-list li { position: relative; counter-increment: numbered; padding: 2px 0 24px 48px; }
+.number-list li::before { content: counter(numbered, decimal-leading-zero); position: absolute; top: 5px; left: 0; color: var(--orange-dark); font-family: var(--mono); font-size: 13px; }
+.number-list li strong { display: block; margin-bottom: 6px; }
+.number-list li p { margin: 0; }
+.number-list li > time { display: block; margin-bottom: 9px; color: var(--muted); font-family: var(--mono); font-size: 11px; line-height: 1.7; }
+.number-list li > h3 { margin: 0 0 10px; font-size: 18px; }
+.source-list { margin: 30px 0; padding-left: 24px; font-size: 14px; line-height: 1.85; }
+.source-list li { padding-left: 9px; margin-bottom: 24px; scroll-margin-top: 32px; }
+.source-list li::marker { color: var(--orange-dark); font-family: var(--mono); font-size: 11px; }
+.source-list a { overflow-wrap: anywhere; }
+.source-tag { display: inline-block; margin: 0 7px 7px 0; padding: 2px 7px; border: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: 9px; line-height: 1.7; letter-spacing: .035em; vertical-align: middle; }
+.source-note { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.9; }
+details { margin: 30px 0; border: 1px solid var(--line); background: var(--paper-raised); }
+summary { padding: 18px 24px; color: var(--ink-soft); font-size: 14px; font-weight: 650; cursor: pointer; }
+summary:hover { color: var(--orange-dark); }
+details[open] summary { border-bottom: 1px solid var(--line); }
+.math-note { padding: 23px 25px; color: var(--ink-soft); font-size: 14px; line-height: 1.9; }
+.math-note > :last-child { margin-bottom: 0; }
+.math-note .equation { font-size: 21px; }
+details.math-note { padding: 0; }
+details.math-note > p { margin: 0; padding: 23px 25px; }
+.question-list { margin: 30px 0; }
+.question-list details { margin: 0; border-width: 1px 0 0; background: transparent; }
+.question-list details:last-child { border-bottom-width: 1px; }
+.question-list summary { padding: 20px 3px; font-size: 16px; line-height: 1.8; }
+.question-list details[open] summary { border-bottom: 0; }
+.question-list details > p { margin: 0; padding: 0 3px 22px; color: var(--ink-soft); font-size: 15px; line-height: 1.9; }
+.closing { margin: 50px 0 65px; padding: 36px 0 0; border-top: 1px solid var(--line); }
+.closing-mark { margin-bottom: 17px; color: var(--orange-dark); font-family: var(--serif); font-size: 38px; line-height: 1; }
+.closing p { font-family: var(--serif); font-size: 24px; line-height: 1.8; letter-spacing: -.02em; }
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px 30px;
+  max-width: 1264px;
+  margin: 0 auto;
+  padding: 28px 0 40px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.site-footer p { margin: 0; }
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+.site-footer .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+.noscript-note { max-width: 960px; margin: 0 auto 30px; padding: 20px; border: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+
+@media (min-width: 1500px) {
+  .hero { padding-top: 95px; padding-bottom: 85px; }
+  #hero-vortex { height: 480px; }
+}
+@media (max-width: 1100px) {
+  .site-header { padding-inline: 32px; gap: 25px; }
+  .nav-links { gap: 17px; }
+  .hero { padding: 60px 32px; gap: 25px; }
+  .hero h1 { font-size: 48px; }
+  #hero-vortex { height: 380px; }
+  .report-grid { grid-template-columns: 145px minmax(0, 1fr); gap: 37px; padding: 55px 32px 0; }
+  .site-footer { margin-inline: 32px; }
+}
+@media (max-width: 860px) {
+  .site-header { padding: 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 51px 24px 44px; grid-template-columns: 1fr; gap: 36px; }
+  .hero-copy { max-width: 700px; }
+  .hero h1 { font-size: clamp(43px, 7vw, 62px); }
+  .hero-deck { max-width: 610px; }
+  .hero-art { border-radius: 3px; }
+  #hero-vortex { height: 370px; }
+  .report-grid { grid-template-columns: minmax(0, 1fr); gap: 0; max-width: 790px; padding: 0 24px; }
+  .toc { position: relative; top: auto; margin: 0 0 43px; padding: 27px 0 21px; border-bottom: 1px solid var(--line); }
+  .toc h2, .toc-title, .toc-label { margin-bottom: 14px; }
+  .toc > nav { flex-direction: row; flex-wrap: wrap; gap: 9px 20px; }
+  .toc-note { display: none; }
+  .toc ul, .toc ol { display: flex; flex-wrap: wrap; gap: 9px 20px; }
+  .toc li { margin: 0; }
+  .toc-link { padding: 0; border-left: 0; font-size: 11px; }
+  .toc-link.active, .toc-link.is-active, .toc-link[aria-current] { color: var(--orange-dark); }
+  .chapter { margin-bottom: 64px; }
+  .fact-grid { gap: 10px; }
+  .fact-card { padding: 16px; }
+  .dark-section { padding: 32px 25px; margin-bottom: 64px; }
+  .site-footer { margin-inline: 24px; }
+}
+@media (max-width: 540px) {
+  html { scroll-padding-top: 24px; }
+  body { font-size: 16px; line-height: 1.9; }
+  .site-header { padding: 21px 20px; gap: 13px; }
+  .brand { font-size: 10px; letter-spacing: .07em; gap: 9px; }
+  .brand::before { width: 11px; height: 11px; flex-basis: 11px; }
+  .brand-symbol { font-size: 25px; }
+  .brand-number { padding-left: 9px; font-size: 9px; }
+  .header-action, .print-button { padding: 8px 10px; font-size: 10px; }
+  .hero { padding: 44px 20px 33px; gap: 29px; }
+  .eyebrow { margin-bottom: 21px; font-size: 9px; letter-spacing: .1em; }
+  .hero h1 { font-size: clamp(36px, 9.8vw, 49px); line-height: 1.26; margin-bottom: 23px; }
+  .hero-deck { font-size: 15px; margin-bottom: 24px; }
+  .hero-meta { gap: 8px 12px; font-size: 9px; }
+  .hero-meta span + span { padding-left: 12px; }
+  .hero-meta time { padding-left: 12px; }
+  .hero-start { margin-top: 23px; font-size: 11px; }
+  #hero-vortex { height: 300px; }
+  .hero-caption { padding: 15px 17px; font-size: 10px; }
+  .report-grid { padding: 0 20px; }
+  .toc { margin-bottom: 34px; }
+  .toc ul, .toc ol { gap: 8px 15px; }
+  .toc > nav { gap: 8px 15px; }
+  .chapter { margin-bottom: 55px; }
+  .section-kicker { margin-bottom: 12px; font-size: 10px; }
+  .chapter h2 { margin-bottom: 23px; font-size: 27px; }
+  .chapter h3 { font-size: 18px; }
+  .report .lead { font-size: 18px; }
+  .fact-box { margin: 26px 0; padding: 23px 21px; }
+  .fact-grid { grid-template-columns: 1fr; }
+  .fact-card { padding: 18px 20px; }
+  .status-box, .callout { padding: 20px 21px; font-size: 14px; }
+  .pullquote { margin: 31px 0; padding: 18px 0 18px 20px; font-size: 21px; }
+  .equation { margin-top: 25px; padding: 22px 16px; font-size: 21px; }
+  .eq-caption { font-size: 11px; text-align: left; }
+  .term-grid { gap: 5px; margin: 20px 0 27px; }
+  .term-card { padding: 16px 9px; font-size: 12px; }
+  .term-card strong, .term-card h3 { font-size: 13px; }
+  .term-symbol { font-size: 15px; }
+  .figure-card { margin: 27px 0; }
+  .figure-top { padding: 17px 17px 14px; gap: 6px 12px; }
+  .figure-title, .figure-top h3 { font-size: 14px; }
+  .figure-label { font-size: 9px; }
+  .viz-frame canvas { height: 330px; }
+  .controls { padding: 15px 17px; gap: 15px 12px; font-size: 11px; }
+  .controls label:has(input[type="range"]) { flex-basis: 100%; }
+  .controls input[type="range"] { max-width: none; }
+  .controls button { min-height: 38px; }
+  .readout { padding: 15px 17px; gap: 11px 14px; }
+  .controls > .readout { flex-basis: 100%; padding-top: 3px; }
+  .viz-stat { flex-basis: 75px; }
+  .viz-stat > strong { font-size: 14px; }
+  .legend { padding: 0 17px 14px; gap: 6px 13px; font-size: 10px; }
+  .figure-caption { padding: 15px 17px 18px; font-size: 11px; }
+  .split { grid-template-columns: 1fr; gap: 13px; }
+  .mini-card { padding: 21px; }
+  .comparison-table { margin: 25px 0; }
+  .comparison-table table { min-width: 520px; font-size: 12px; }
+  .comparison-table th, .comparison-table td { padding: 13px 14px; }
+  .dark-section { padding: 27px 16px; margin-inline: -4px; margin-bottom: 55px; }
+  .dark-section h2 { font-size: 25px; }
+  .dark-section .figure-top, .dark-section .controls, .dark-section .figure-caption { padding-inline: 14px; }
+  .dark-section .legend { padding-inline: 14px; }
+  .number-list li { padding-left: 37px; }
+  .number-list li::before { font-size: 11px; }
+  .number-list li > h3 { font-size: 17px; }
+  .source-list { padding-left: 20px; font-size: 13px; }
+  .source-list li { padding-left: 4px; }
+  .source-note { font-size: 11px; }
+  summary { padding: 16px 18px; font-size: 13px; }
+  .math-note { padding: 20px 18px; font-size: 13px; }
+  details.math-note > p { padding: 20px 18px; }
+  .question-list summary { padding-block: 17px; font-size: 14px; }
+  .question-list details > p { font-size: 13px; padding-bottom: 20px; }
+  .closing { margin: 35px 0 45px; }
+  .closing p { font-size: 21px; }
+  .site-footer { margin-inline: 20px; padding-bottom: 30px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+@media print {
+  @page { size: A4; margin: 17mm 16mm; }
+  :root { --paper: #fff; --paper-raised: #fff; --line: #ccc; }
+  html { scroll-behavior: auto; }
+  body { background: #fff; color: #000; font-size: 10pt; line-height: 1.75; }
+  #reading-progress, .skip-link, .nav-links, .header-action, .print-button, .toc, .controls, .hero-start { display: none !important; }
+  .site-header { padding: 0 0 14px; }
+  .brand { font-size: 9pt; }
+  .hero { display: block; padding: 28px 0; }
+  .hero h1 { font-size: 34pt; }
+  .hero-deck { font-size: 12pt; }
+  .hero-art { width: 100%; max-width: 430px; margin: 24px auto 0; border-radius: 0; }
+  #hero-vortex { height: 250px; }
+  .report-grid { display: block; max-width: none; padding: 28px 0 0; }
+  .chapter { margin-bottom: 30px; }
+  .chapter h2 { font-size: 20pt; break-after: avoid; }
+  .chapter h3 { font-size: 13pt; break-after: avoid; }
+  .report .lead { font-size: 12pt; }
+  p { orphans: 3; widows: 3; }
+  .fact-box, .callout, .equation, .mini-card, .figure-card { break-inside: avoid; }
+  .figure-card { margin: 20px 0; }
+  .viz-frame canvas { height: 270px; }
+  .figure-title { font-size: 11pt; }
+  .figure-caption { font-size: 9pt; }
+  .hero-art, .dark-section, .viz-frame, .comparison-table thead th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .dark-section { margin: 25px 0; padding: 25px; }
+  .figure-card.dark-section { padding: 0; margin: 20px 0; }
+  .dark-section h2 { font-size: 20pt; }
+  .equation { overflow: visible; padding: 20px 12px; font-size: 15pt; }
+  .comparison-table { overflow: visible; }
+  .comparison-table table { min-width: 0; font-size: 9pt; }
+  .comparison-table th, .comparison-table td { padding: 10px; }
+  .source-list { font-size: 9pt; }
+  .source-ref { color: #444; }
+  .source-list a { text-decoration: none; }
+  .closing { margin: 25px 0; }
+  .closing p { font-size: 15pt; }
+  .site-footer { margin: 0; padding: 20px 0 0; font-size: 8pt; }
+}
+
+/* Narrow, single-column overrides for the self-contained blog embed. */
+body.embed-report {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.85;
+}
+body.embed-report main,
+body.embed-report .report,
+body.embed-report .hero-copy {
+  min-width: 0;
+}
+body.embed-report .site-header {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 19px 20px;
+  gap: 12px;
+}
+body.embed-report .brand {
+  gap: 9px;
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+body.embed-report .brand-symbol { font-size: 25px; }
+body.embed-report .brand-number {
+  margin-left: 3px;
+  padding-left: 10px;
+  font-size: 9px;
+}
+body.embed-report .header-action {
+  padding: 8px 10px;
+  gap: 5px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+body.embed-report .nav-links,
+body.embed-report .toc { display: none; }
+body.embed-report .hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 28px;
+  gap: 25px;
+}
+body.embed-report .eyebrow {
+  margin-bottom: 19px;
+  font-size: 9px;
+  letter-spacing: .1em;
+}
+body.embed-report .hero h1 {
+  margin-bottom: 22px;
+  font-size: clamp(30px, 6.5vw, 42px);
+  line-height: 1.28;
+  letter-spacing: -.055em;
+}
+body.embed-report .hero-deck {
+  max-width: 620px;
+  margin-bottom: 22px;
+  font-size: 15px;
+  line-height: 1.85;
+}
+body.embed-report .hero-meta {
+  gap: 7px 11px;
+  font-size: 9px;
+}
+body.embed-report .hero-meta span + span,
+body.embed-report .hero-meta time { padding-left: 11px; }
+body.embed-report .hero-start {
+  margin-top: 22px;
+  font-size: 11px;
+}
+body.embed-report .hero-art {
+  width: 100%;
+  min-width: 0;
+  border-radius: 3px;
+}
+body.embed-report #hero-vortex { height: 280px; }
+body.embed-report .hero-caption {
+  padding: 14px 17px;
+  font-size: 10px;
+}
+body.embed-report .report-grid {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 0;
+}
+body.embed-report .report {
+  font-size: 16px;
+  line-height: 1.85;
+}
+body.embed-report .chapter {
+  margin-bottom: 52px;
+  scroll-margin-top: 22px;
+}
+body.embed-report .section-kicker {
+  margin-bottom: 12px;
+  font-size: 10px;
+  letter-spacing: .09em;
+}
+body.embed-report .chapter h2 {
+  margin-bottom: 23px;
+  font-size: clamp(24px, 4.8vw, 30px);
+  line-height: 1.5;
+  letter-spacing: -.04em;
+}
+body.embed-report .chapter h3 {
+  font-size: 18px;
+  line-height: 1.6;
+}
+body.embed-report .report .lead {
+  font-size: 18px;
+  line-height: 1.85;
+}
+body.embed-report .fact-box {
+  margin: 26px 0;
+  padding: 22px 20px;
+}
+body.embed-report .fact-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+body.embed-report .fact-card {
+  padding: 17px;
+  font-size: 13px;
+  line-height: 1.85;
+}
+body.embed-report .fact-card h3 { font-size: 15px; }
+body.embed-report .status-box,
+body.embed-report .callout {
+  margin: 25px 0;
+  padding: 20px;
+  font-size: 14px;
+}
+body.embed-report .callout-title { font-size: 16px; }
+body.embed-report .equation {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin-top: 25px;
+  padding: 22px 16px;
+  overflow-x: auto;
+  font-size: 21px;
+}
+body.embed-report .eq-caption {
+  font-size: 11px;
+  line-height: 1.9;
+  text-align: left;
+}
+body.embed-report .term-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  margin: 22px 0 28px;
+}
+body.embed-report .term-card {
+  padding: 17px 5px;
+  font-size: 14px;
+  line-height: 1.85;
+}
+body.embed-report .term-card h3 { font-size: 15px; }
+body.embed-report .term-symbol { font-size: 17px; }
+body.embed-report .figure-card,
+body.embed-report .figure-card.dark-section {
+  width: 100%;
+  min-width: 0;
+  margin: 26px 0;
+  padding: 0;
+}
+body.embed-report .figure-top {
+  padding: 17px 17px 14px;
+  gap: 6px 12px;
+}
+body.embed-report .figure-title,
+body.embed-report .figure-top h3 { font-size: 14px; }
+body.embed-report .figure-label { font-size: 9px; }
+body.embed-report .viz-frame canvas {
+  width: 100%;
+  max-width: 100%;
+  height: 320px;
+}
+body.embed-report .controls {
+  padding: 16px 17px;
+  gap: 14px 12px;
+  font-size: 12px;
+}
+body.embed-report .controls label:has(input[type="range"]) {
+  flex: 1 1 100%;
+  min-width: 0;
+  gap: 9px;
+}
+body.embed-report .controls input[type="range"] {
+  flex: 1 1 100px;
+  width: 100px;
+  max-width: none;
+  min-width: 70px;
+}
+body.embed-report .controls button {
+  min-height: 38px;
+  padding: 8px 12px;
+  font-size: 11px;
+}
+body.embed-report .readout {
+  padding: 15px 17px;
+  gap: 12px 14px;
+}
+body.embed-report .controls > .readout {
+  flex-basis: 100%;
+  padding: 2px 0 0;
+}
+body.embed-report .viz-stat { flex: 1 1 75px; }
+body.embed-report .viz-stat > span { font-size: 10px; }
+body.embed-report .viz-stat > strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+body.embed-report .legend {
+  padding: 0 17px 14px;
+  font-size: 10px;
+}
+body.embed-report .figure-caption {
+  padding: 15px 17px 18px;
+  font-size: 11px;
+  line-height: 1.9;
+}
+body.embed-report .split { gap: 14px; }
+body.embed-report .mini-card {
+  padding: 21px;
+  font-size: 14px;
+}
+body.embed-report .comparison-table {
+  width: 100%;
+  min-width: 0;
+  margin: 25px 0;
+}
+body.embed-report .comparison-table table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+body.embed-report .comparison-table caption {
+  padding: 12px;
+  font-size: 11px;
+}
+body.embed-report .comparison-table th,
+body.embed-report .comparison-table td {
+  min-width: 0;
+  padding: 12px 8px;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  font-size: 12px;
+  line-height: 1.8;
+}
+body.embed-report .comparison-table thead th:nth-child(1) { width: 14%; }
+body.embed-report .comparison-table thead th:nth-child(2) { width: 21%; }
+body.embed-report .comparison-table thead th:nth-child(3) { width: 33%; }
+body.embed-report .comparison-table thead th:nth-child(4) { width: 32%; }
+body.embed-report .comparison-table tbody th { min-width: 0; }
+body.embed-report .pullquote {
+  margin: 29px 0;
+  padding: 19px 0 19px 20px;
+  font-size: 21px;
+}
+body.embed-report .number-list li { padding-left: 37px; }
+body.embed-report .number-list li::before { font-size: 11px; }
+body.embed-report .number-list li > h3 { font-size: 17px; }
+body.embed-report .source-list {
+  padding-left: 20px;
+  font-size: 13px;
+}
+body.embed-report .source-list li {
+  min-width: 0;
+  padding-left: 4px;
+}
+body.embed-report .source-note { font-size: 11px; }
+body.embed-report .source-list a { overflow-wrap: anywhere; }
+body.embed-report summary {
+  padding: 16px 18px;
+  font-size: 13px;
+}
+body.embed-report details.math-note > p {
+  padding: 20px 18px;
+  font-size: 13px;
+}
+body.embed-report .question-list summary {
+  padding: 18px 3px;
+  font-size: 14px;
+}
+body.embed-report .question-list details > p { font-size: 14px; }
+body.embed-report .closing {
+  margin: 35px 0 43px;
+  padding-top: 28px;
+}
+body.embed-report .closing p { font-size: 21px; }
+body.embed-report .site-footer {
+  width: auto;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 0 30px;
+  gap: 12px 18px;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+body.embed-report .noscript-note {
+  max-width: 720px;
+  margin: 0 auto 24px;
+}
+
+@media (max-width: 759px) {
+  body.embed-report .site-footer,
+  body.embed-report .noscript-note { margin-inline: 20px; }
+}
+@media (max-width: 639px) {
+  body.embed-report .split { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 539px) {
+  body.embed-report .fact-grid,
+  body.embed-report .term-grid { grid-template-columns: minmax(0, 1fr); }
+  body.embed-report .term-card { padding-block: 16px; }
+  body.embed-report #hero-vortex { height: 250px; }
+  body.embed-report .viz-frame canvas { height: 300px; }
+}
+@media (max-width: 359px) {
+  body.embed-report .site-header { padding-inline: 14px; gap: 8px; }
+  body.embed-report .brand { gap: 7px; font-size: 9px; letter-spacing: .04em; }
+  body.embed-report .brand-number { padding-left: 7px; font-size: 8px; }
+  body.embed-report .header-action { padding: 7px 8px; font-size: 9px; }
+  body.embed-report .hero { padding: 28px 14px 25px; }
+  body.embed-report .report-grid { padding: 28px 14px 0; }
+  body.embed-report .fact-box { padding: 20px 15px; }
+  body.embed-report .status-box,
+  body.embed-report .callout { padding: 18px 16px; }
+  body.embed-report .figure-top,
+  body.embed-report .controls,
+  body.embed-report .readout,
+  body.embed-report .figure-caption { padding-inline: 14px; }
+  body.embed-report .controls > .readout { padding-inline: 0; }
+  body.embed-report .hero-meta time { padding-left: 0; border-left: 0; }
+  body.embed-report .comparison-table th,
+  body.embed-report .comparison-table td { padding-inline: 6px; }
+  body.embed-report .site-footer,
+  body.embed-report .noscript-note { margin-inline: 14px; }
+}
+@media print {
+  body.embed-report { font-size: 10pt; line-height: 1.75; }
+  body.embed-report .site-header,
+  body.embed-report .hero,
+  body.embed-report .report-grid,
+  body.embed-report .site-footer {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-inline: 0;
+  }
+  body.embed-report .site-header { padding-top: 0; padding-bottom: 14px; }
+  body.embed-report .hero { display: block; padding-block: 25px; }
+  body.embed-report .hero h1 { font-size: 29pt; }
+  body.embed-report .hero-deck { font-size: 11pt; }
+  body.embed-report .hero-art { margin: 20px auto 0; }
+  body.embed-report #hero-vortex { height: 240px; }
+  body.embed-report .report-grid { padding-top: 25px; }
+  body.embed-report .report { font-size: 10pt; line-height: 1.75; }
+  body.embed-report .chapter { margin-bottom: 30px; }
+  body.embed-report .chapter h2 { font-size: 19pt; }
+  body.embed-report .report .lead { font-size: 12pt; }
+  body.embed-report .equation { overflow: visible; font-size: 15pt; }
+  body.embed-report .figure-card,
+  body.embed-report .figure-card.dark-section { margin: 20px 0; }
+  body.embed-report .viz-frame canvas { height: 270px; }
+  body.embed-report .comparison-table table,
+  body.embed-report .comparison-table th,
+  body.embed-report .comparison-table td { font-size: 9pt; }
+  body.embed-report .closing p { font-size: 15pt; }
+}
+</style>
+</head>
+<body class="embed-report">
+  <a class="skip-link" href="#report">본문으로 건너뛰기</a>
+  <div id="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#intro"><span class="brand-symbol" aria-hidden="true">∿</span> THE FLUID NOTE <span class="brand-number">№ 01</span></a>
+    <button class="header-action print-button" type="button">인쇄 / PDF <span aria-hidden="true">↗</span></button>
+  </header>
+
+  <main>
+    <section class="hero" id="intro" aria-labelledby="report-title">
+      <div class="hero-copy">
+        <p class="eyebrow">MATHEMATICS, FOR THE CURIOUS</p>
+        <h1 id="report-title">소용돌이의 끝에서,<br><span class="accent">무한대를 만나다.</span></h1>
+        <p class="hero-deck">가장 빠른 곳의 속도는 끝없이 커지는데,<br>전체 에너지는 유한할 수 있을까?<br>나비에–스토크스 반례 발표를 읽는 수학 산책.</p>
+        <div class="hero-meta"><span>고등학교 수학으로 읽기</span><span>약 18분 · 2D / 3D 실험</span><time datetime="2026-10-10">2026. 10. 10. 기준</time></div>
+        <a class="hero-start" href="#first">첫 번째 질문으로 <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="hero-art">
+        <canvas id="hero-vortex" role="img" aria-label="중심으로 모여 길게 뻗는 소용돌이를 표현한 장식적 개념 그림">소용돌이의 회전과 축 방향 늘어남을 표현한 개념 그림.</canvas>
+        <figcaption class="hero-caption"><span>FIG. 00</span> 중심으로 모이는 회전, 축 방향의 운동.<br>국소 흐름을 떠올리기 위한 개념 그림입니다.</figcaption>
+      </figure>
+    </section>
+
+    <div class="report-grid">
+
+      <article class="report" id="report" aria-label="나비에–스토크스 해설 리포트">
+        <section class="chapter" id="first">
+          <p class="section-kicker">01 / THE ANNOUNCEMENT</p>
+          <h2>“회전시키면 무한대가 된다”는 이야기, 맞을까?</h2>
+          <p class="lead">기억하신 이야기의 핵심은 맞습니다. 다만 <strong>어떤 회전이든 속도가 무한대가 되는 것은 아닙니다.</strong> 아주 특별하게 구성한 흐름이, 점성의 완화 작용을 견디며 유한한 시간 안에 매끈함을 잃을 수 있다는 발표입니다.</p>
+          <p>2026년 9월 8일 OpenAI는 나비에–스토크스의 존재성과 매끈함 문제에 대한 반례를 발표했습니다. 공개 ChatGPT 모델에 한 번 질문해서 얻은 결과라기보다는, 미공개 내부 모델과 다수의 AI 에이전트를 사용한 연구라고 설명합니다. <a class="source-ref" href="#source-1" aria-label="출처 1">[1]</a></p>
+          <div class="fact-box">
+            <p class="fact-label">발표된 구성의 네 가지 조건</p>
+            <div class="fact-grid">
+              <div class="fact-card"><span>01</span><h3>3차원 · 비압축</h3><p>밀도가 일정한 유체. 납작한 평면이 아니라 세 방향으로 움직입니다.</p></div>
+              <div class="fact-card"><span>02</span><h3>점성이 존재</h3><p>마찰에 해당하는 점성계수 ν가 양수인 나비에–스토크스입니다.</p></div>
+              <div class="fact-card"><span>03</span><h3>매끈한 외력</h3><p>정지 상태에서 출발합니다. 외력 자체에 무한대나 불연속을 넣지 않습니다.</p></div>
+              <div class="fact-card"><span>04</span><h3>속도는 무한히, 에너지는 유한하게</h3><p>특이 시각에 가까워질 때 최대 속도에 유한한 상한이 사라집니다.</p></div>
+            </div>
+            <p class="eq-caption">원문 Theorem 1.1의 내용을 읽기 쉽게 요약했습니다. 외력은 공간과 시간에서 제한된 영역에만 작용하도록 구성됩니다. <a class="source-ref" href="#source-2" aria-label="출처 2">[2]</a></p>
+          </div>
+          <div class="status-box"><span class="source-tag">2026. 10. 10. 확인</span><p><strong>발표와 최종 인정은 서로 다른 단계입니다.</strong> Clay 수학연구소는 평가 절차를 안내했고, 10월 6일에는 논문과 Lean 형식 증명의 대응에 관한 문제 제기가 나왔습니다. 이 글은 이를 포함해 발표 내용을 설명합니다. <a class="source-ref" href="#source-4">[4]</a> <a class="source-ref" href="#source-5">[5]</a></p></div>
+          <p>여기서 “반례”는 방정식을 틀렸다고 선언하는 말이 아닙니다. “좋은 출발 조건이면 흐름이 언제까지나 좋은 상태를 유지한다”는 기대에, 그 기대를 만족하지 않는 한 가지 사례를 제시한다는 뜻입니다. “모든 백조는 하얗다”는 문장을 검은 백조 한 마리가 뒤집듯이요.</p>
+        </section>
+
+        <section class="chapter" id="infinity">
+          <p class="section-kicker">02 / A FINITE DEADLINE</p>
+          <h2>무한히 오래 기다리지 않아도,<br>무한대에 다가갈 수 있다.</h2>
+          <p>“값이 무한대로 수렴한다”는 표현은 일상적으로 쓰지만, 여기서는 <strong>유한시간 발산</strong>이 더 정확합니다. 시간 자체가 무한해지는 것이 아니라, 정해진 시각 T에 가까워지는 동안 값이 끝없이 커집니다.</p>
+          <p>가장 간단한 예는 다음 함수입니다. 시간의 단위를 골라 T = 1로 놓아 봅시다.</p>
+          <div class="equation" aria-label="b(t)는 1 나누기 1 빼기 t, t는 0 이상 1 미만. t가 1로 왼쪽에서 접근하면 b(t)는 무한대로 발산">
+            <math display="block"><mrow><mi>b</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><mi>t</mi></mrow></mfrac><mo>,</mo><mspace width="1em"/><mn>0</mn><mo>≤</mo><mi>t</mi><mo>&lt;</mo><mn>1</mn><mo>;</mo><mspace width="1em"/><munder><mo>lim</mo><mrow><mi>t</mi><mo>→</mo><msup><mn>1</mn><mo>−</mo></msup></mrow></munder><mi>b</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mo>∞</mo></mrow></math>
+          </div>
+          <p class="eq-caption">t = 0.9이면 10, 0.99이면 100, 0.999이면 1,000. 모든 t &lt; 1에서 값은 유한하지만, 전체 구간을 덮는 유한한 최대치는 없습니다. t = 1에서 “속도 ∞”라는 정상적인 값을 갖는다는 뜻도 아닙니다.</p>
+          <figure class="figure-card">
+            <div class="figure-top"><span class="figure-label">FIG. 01 / 2D</span><h3 class="figure-title">커지는 것과 유한시간 발산은 다르다</h3></div>
+            <div class="viz-frame"><canvas id="blowup-chart" role="img" aria-label="유한시간 발산 함수 1/(1-t), 직선 1+t, 지수함수 e의 t제곱을 비교하는 그래프">1/(1-t)는 t가 1에 다가가면 발산하고, 1+t와 e^t는 t=1에서도 유한합니다.</canvas></div>
+            <div class="controls"><label for="time-slider">시각 t <output id="time-value" for="time-slider">0.60</output><input type="range" id="time-slider" min="0" max="0.99" step="0.01" value="0.6"></label><div id="blowup-values" class="readout" aria-live="polite"></div></div>
+            <figcaption class="figure-caption">주황: 1/(1 − t) · 청록: eᵗ · 청보라: 1 + t. 세로축은 10에서 잘라 표시합니다. 슬라이더의 숫자는 잘리지 않은 실제 함수값입니다. <strong>이 그래프는 극한의 예시이며, 논문의 속도 증가율을 재현하지 않습니다.</strong></figcaption>
+          </figure>
+          <p>실제 발표의 수학적 진술은 조금 더 조심스럽습니다. 공간의 각 지점에서 속력 |u|를 비교한 “그때의 최대 속력”을 U(t)라고 하면, 특이 시각에 접근할 때 <strong>아무리 큰 기준도 넘어서는 시각들이 있다</strong>는 뜻입니다.</p>
+          <div class="equation" aria-label="U(t)는 공간 전체에서 속력의 상한. t가 T로 접근할 때 U(t)의 극한 상한은 무한대">
+            <math display="block"><mrow><mi>U</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><munder><mo>sup</mo><mi mathvariant="bold">x</mi></munder><mo>|</mo><mi mathvariant="bold">u</mi><mo>(</mo><mi mathvariant="bold">x</mi><mo>,</mo><mi>t</mi><mo>)</mo><mo>|</mo><mo>,</mo><mspace width="1em"/><munder><mtext>lim sup</mtext><mrow><mi>t</mi><mo>↑</mo><mi>T</mi></mrow></munder><mi>U</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mo>∞</mo></mrow></math>
+          </div>
+          <p class="eq-caption">sup는 “상한”, lim sup는 “극한 상한”입니다. 단순 예시 b(t)처럼 계속 단조롭게 커져야 한다는 조건은 없습니다. 원문에서는 T = 1로 정규화합니다. <a class="source-ref" href="#source-2">[2]</a></p>
+        </section>
+
+        <section class="chapter" id="equation">
+          <p class="section-kicker">03 / READING THE EQUATION</p>
+          <h2>거대한 수식 안에는<br>뉴턴의 F = ma가 있다.</h2>
+          <p>나비에–스토크스 방정식은 물의 작은 조각마다 뉴턴의 운동 법칙을 적용한 것입니다. “얼마나 가속하는가”를 “무엇이 밀고 당기는가”와 연결합니다. 밀도를 일정하게 놓고 압력과 외력을 그 밀도로 나누면 이렇게 적습니다.</p>
+          <div class="equation main-equation" aria-label="속도의 시간 변화 더하기 흐름에 의한 속도 변화는 마이너스 압력의 기울기 더하기 점성계수 곱하기 속도의 라플라시안 더하기 외력. 속도의 발산은 0">
+            <math display="block"><mrow><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">u</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mo>(</mo><mi mathvariant="bold">u</mi><mo>·</mo><mo>∇</mo><mo>)</mo><mi mathvariant="bold">u</mi><mo>=</mo><mo>−</mo><mo>∇</mo><mi>p</mi><mo>+</mo><mi>ν</mi><mo>Δ</mo><mi mathvariant="bold">u</mi><mo>+</mo><mi mathvariant="bold">f</mi></mrow></math>
+            <math display="block"><mrow><mo>∇</mo><mo>·</mo><mi mathvariant="bold">u</mi><mo>=</mo><mn>0</mn></mrow></math>
+          </div>
+          <p class="eq-caption">u는 위치와 시간마다 주어진 속도 화살표, p는 밀도로 나눈 압력, ν(뉴)는 점성계수, f는 단위 질량당 외력입니다. 아래 줄은 비압축 조건입니다. <a class="source-ref" href="#source-3">[3]</a></p>
+          <div class="term-grid">
+            <div class="term-card"><span class="term-symbol">∂u / ∂t</span><h3>한 장소에서의 변화</h3><p>강 위의 한 다리에 서서, 그 아래 물살이 시간에 따라 달라지는지 봅니다.</p></div>
+            <div class="term-card"><span class="term-symbol">(u · ∇)u</span><h3>이동하며 겪는 변화</h3><p>물 조각이 느린 곳에서 빠른 곳으로 이동해도 가속합니다. 흐름이 자신을 바꾸는 비선형 항입니다.</p></div>
+            <div class="term-card"><span class="term-symbol">−∇p</span><h3>압력의 차이</h3><p>높은 압력이 낮은 압력 쪽으로 유체를 밉니다. 비압축 조건을 맞추는 데도 압력이 관여합니다.</p></div>
+            <div class="term-card"><span class="term-symbol">ν Δu</span><h3>점성의 완화</h3><p>서로 다른 속도로 움직이는 이웃 사이의 차이를 누그러뜨립니다. 번진 잉크처럼 거친 변화를 완화합니다.</p></div>
+            <div class="term-card"><span class="term-symbol">f</span><h3>바깥에서 가하는 힘</h3><p>유체의 내부 운동과 별도로 주어지는 힘입니다. 이번 구성에서는 이 힘의 매끈함이 중요한 조건입니다.</p></div>
+          </div>
+          <details class="math-note"><summary>∂, ∇, Δ는 낯설어도 괜찮습니다</summary><p>∂는 다른 조건을 고정하고 한 변수에 대한 변화율을 보는 기호입니다. ∇(나블라)는 x·y·z 방향의 변화율을 묶습니다. Δ(라플라시안)는 각 방향의 두 번째 변화율을 더합니다. 한 차원에서 매끈한 함수 v를 격자 간격 h로 관찰하면, Δv는 대략 <strong>[v(x + h) − 2v(x) + v(x − h)] / h²</strong>입니다. 중심값이 양옆 평균보다 높으면 이 값은 음수가 됩니다. 이런 식으로 점성이 속도 차이를 완화합니다.</p></details>
+          <p>문제의 긴장은 두 항에서 생깁니다. 유체는 이동하면서 속도 차이를 더 복잡하게 만들 수 있고, 점성은 그 차이를 완화하려 합니다. <strong>세 방향으로 늘어나고 비틀리는 흐름에서 완화가 항상 충분할까?</strong> 이것이 매끈함 문제의 중심 질문입니다.</p>
+        </section>
+
+        <section class="chapter" id="geometry">
+          <p class="section-kicker">04 / THE GEOMETRY OF A VORTEX</p>
+          <h2>소용돌이는 돌기만 하지 않는다.<br>안으로 모이고, 위아래로 늘어난다.</h2>
+          <p class="lead">커피를 젓는 장면을 떠올려 봅시다. 컵 위에서 보면 원운동이 눈에 들어옵니다. 하지만 3차원 흐름에서는 회전과 동시에 중심으로 다가가고, 축 방향으로 길어질 수도 있습니다.</p>
+          <p>회전의 빠르기에도 두 종류가 있습니다. 초당 몇 바퀴 도는가는 <strong>각속도 Ω</strong>와 관계있고, 원을 따라 실제로 얼마나 멀리 이동하는가는 <strong>접선 속력 v<sub>θ</sub></strong>입니다. Ω의 단위를 초당 라디안으로 적으면 v<sub>θ</sub> = Ωr이므로, 바퀴 수가 같아도 큰 원의 가장자리가 더 빨리 움직입니다.</p>
+          <div class="callout"><h3 class="callout-title">“길어진다”는 말의 두 의미</h3><p>물 조각은 축 방향으로 늘어날 수 있습니다. 그러나 원문에서 <strong>고속이 집중된 중심 영역</strong>은 반경과 축 길이가 모두 줄어듭니다. 반경이 더 빨리 줄어, 길이와 반경의 <strong>비율</strong>이 커지는 것입니다. 아래 3D 튜브는 같은 물질 덩어리의 변형을 보여 줍니다. <a class="source-ref" href="#source-2">[2, §2]</a></p></div>
+          <figure class="figure-card">
+            <div class="figure-top"><span class="figure-label">FIG. 02 / 2D SLICE</span><h3 class="figure-title">소용돌이를 위에서 내려다보면</h3></div>
+            <div class="viz-frame"><canvas id="flow2d" role="img" aria-label="회전과 중심 유입을 조절할 수 있는 3차원 흐름의 2차원 단면. 화살표는 속도 방향, 입자는 이동 경로를 표시">회전이 있을 때 입자는 원을 돌고, 중심 유입을 더하면 안쪽으로 나선형 이동합니다.</canvas></div>
+            <div class="controls"><label for="swirl">회전 Ω <output id="swirl-value" for="swirl">1.4</output><input type="range" id="swirl" min="0" max="3" step="0.1" value="1.4"></label><label for="inflow">중심 유입 a <output id="inflow-value" for="inflow">0.35</output><input type="range" id="inflow" min="0" max="1" step="0.05" value="0.35"></label><button type="button" id="flow-toggle">일시정지</button><button type="button" id="flow-reset">초기화</button></div>
+            <div id="flow-status" class="readout" aria-live="polite"></div>
+            <figcaption class="figure-caption">화살표는 순간 속도 방향, 점은 흐름을 따라가는 표시입니다. <strong>3D 비압축 흐름의 xy 단면을 그린 교육 모형</strong>입니다. 평면 안으로 모이는 만큼 화면 밖 z 방향으로 늘어나므로, 이 그림을 독립적인 2D 비압축 유체로 읽으면 안 됩니다. 입자의 재생성은 그림을 계속 관찰하기 위한 장치입니다.</figcaption>
+          </figure>
+          <p>이 구조를 표현하는 간단한 속도장은 다음과 같습니다. a ≥ 0과 Ω는 일정한 수로 두고, 물 조각의 위치를 (x, y, z)로 적습니다.</p>
+          <div class="equation" aria-label="속도장은 마이너스 ax 마이너스 오메가 y, 오메가 x 마이너스 ay, 2az">
+            <math display="block"><mrow><mi mathvariant="bold">u</mi><mo>=</mo><mo>(</mo><mo>−</mo><mi>a</mi><mi>x</mi><mo>−</mo><mi>Ω</mi><mi>y</mi><mo>,</mo><mspace width="0.4em"/><mi>Ω</mi><mi>x</mi><mo>−</mo><mi>a</mi><mi>y</mi><mo>,</mo><mspace width="0.4em"/><mn>2</mn><mi>a</mi><mi>z</mi><mo>)</mo></mrow></math>
+          </div>
+          <p>−ax와 −ay는 중심으로 모으고, −Ωy와 Ωx는 돌리고, 2az는 위아래로 늘립니다. x 방향 변화율은 −a, y 방향은 −a, z 방향은 2a. 합은 <strong>−a − a + 2a = 0</strong>입니다. 줄어든 두 방향을 세 번째 방향이 정확히 보상합니다.</p>
+          <figure class="figure-card dark-section">
+            <div class="figure-top"><span class="figure-label">FIG. 03 / INTERACTIVE 3D</span><h3 class="figure-title">같은 물 덩어리의 모양을 바꿔보기</h3></div>
+            <div class="viz-frame"><canvas id="vortex3d" tabindex="0" role="img" aria-label="반경이 줄고 축 방향으로 늘어나는 3차원 튜브. 드래그 또는 화살표 키로 회전. 아래 슬라이더로 변형 조절" aria-describedby="vortex-caption">반경은 e^(−s)배, 길이는 e^(2s)배가 되어 물질 튜브의 부피는 유지됩니다.</canvas></div>
+            <div class="controls"><label for="stretch">변형 s = at <output id="stretch-value" for="stretch">0.35</output><input type="range" id="stretch" min="0" max="1" step="0.01" value="0.35"></label><button type="button" id="vortex-toggle">자동 변화 시작</button><button type="button" id="vortex-reset">초기화</button></div>
+            <div id="vortex-stats" class="readout" aria-live="polite"></div>
+            <figcaption class="figure-caption" id="vortex-caption">드래그하거나 그림에 초점을 두고 화살표 키를 눌러 시점을 바꾸세요. 선은 물질 튜브의 모양을 나타내며 특정 시각의 유선과 같다는 뜻은 아닙니다. <strong>부피를 유지하는 기하학적 모형이며, 논문의 특이해를 계산한 시뮬레이션은 아닙니다.</strong> 변형은 유한한 범위에서만 표시합니다.</figcaption>
+          </figure>
+          <p>반경의 비율이 e<sup>−s</sup>이고 길이의 비율이 e<sup>2s</sup>이면, 원기둥의 부피 πr²L에는 다음 상쇄가 생깁니다. e는 약 2.718인 지수함수의 밑입니다. 지수의 덧셈 법칙만 알면 읽을 수 있습니다.</p>
+          <div class="equation" aria-label="부피 비는 반경 비의 제곱 곱하기 길이 비, e의 마이너스 2s제곱 곱하기 e의 2s제곱은 1">
+            <math display="block"><mrow><mfrac><mi>V</mi><msub><mi>V</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mrow><mo>(</mo><mfrac><mi>r</mi><msub><mi>r</mi><mn>0</mn></msub></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mfrac><mi>L</mi><msub><mi>L</mi><mn>0</mn></msub></mfrac><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn><mi>s</mi></mrow></msup><mo>·</mo><msup><mi>e</mi><mrow><mn>2</mn><mi>s</mi></mrow></msup><mo>=</mo><mn>1</mn></mrow></math>
+          </div>
+          <div class="callout"><h3 class="callout-title">그림에서 증명으로 뛰어넘지 않기</h3><p>위 모형의 a와 Ω는 상수이며, 유한한 시간에는 무한대가 생기지 않습니다. 반경이 줄어도 Ω가 일정하면 v<sub>θ</sub> = Ωr은 오히려 작아집니다. 실제 발표의 핵심인 회전의 증폭, 점성과의 균형, 외력의 매끈함은 이 간단한 그림만으로 증명되지 않습니다.</p></div>
+          <details class="math-note"><summary>스케이트 선수가 팔을 모으면 빨라지는 것과 같을까요?</summary><p>비슷한 직관은 얻을 수 있습니다. 외부 토크가 없는 이상적인 회전 입자에서는 질량당 각운동량 r v<sub>θ</sub>가 일정하므로, r이 작아지면 v<sub>θ</sub>가 커집니다. 그러나 점성 유체는 주변과 운동량을 주고받고 외력도 받을 수 있습니다. 이 보존 법칙을 반례의 각 물 조각에 그대로 적용할 수는 없습니다. 스케이트 비유는 회전 증폭의 가능성을 상상하게 해 주지만, 유한시간 발산을 보장하지 않습니다.</p></details>
+        </section>
+
+        <section class="chapter" id="energy">
+          <p class="section-kicker">05 / THE ENERGY PARADOX</p>
+          <h2>한 곳의 무한대와<br>전체의 유한함은 공존할 수 있다.</h2>
+          <p>질량 m인 물체의 운동에너지는 ½mv²입니다. 속력이 두 배면 에너지는 네 배입니다. 그렇다면 속력이 끝없이 커질 때 에너지도 반드시 무한대가 되지 않을까요?</p>
+          <p>그 속력으로 움직이는 <strong>물의 양</strong>을 함께 보아야 합니다. 유체의 전체 에너지는 공간의 작은 조각마다 ½ × 밀도 × 속력² × 부피를 계산해서 모두 더한 값입니다.</p>
+          <div class="equation" aria-label="전체 에너지 E(t)는 밀도 rho 나누기 2 곱하기 공간 전체에서 속력 제곱의 적분">
+            <math display="block"><mrow><mi>E</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mfrac><mi>ρ</mi><mn>2</mn></mfrac><msub><mo>∫</mo><msup><mi mathvariant="double-struck">R</mi><mn>3</mn></msup></msub><mo>|</mo><mi mathvariant="bold">u</mi><mo>(</mo><mi mathvariant="bold">x</mi><mo>,</mo><mi>t</mi><mo>)</mo><msup><mo>|</mo><mn>2</mn></msup><mo>d</mo><mi>V</mi></mrow></math>
+          </div>
+          <p class="eq-caption">∫는 아주 작은 부피 조각들의 값을 합하는 기호입니다. ρ(로)는 일정한 밀도입니다. “가장 높은 값”과 “전체를 더한 값”은 다른 정보를 담습니다.</p>
+          <p>논문과 독립적인 숫자 실험을 해 봅시다. 밀도를 1로 놓고, 고속 영역의 대표 속력은 n, 그 영역의 부피는 1/n³이라고 가정합니다. 그 부분의 에너지는 대략 ½ × n² × 1/n³ = 1/(2n)입니다.</p>
+          <div class="comparison-table"><table><caption>교육용 척도 예시 · 실제 반례의 증가율이 아닙니다</caption><thead><tr><th scope="col">n</th><th scope="col">대표 속력</th><th scope="col">고속 영역 부피</th><th scope="col">그 부분의 에너지</th></tr></thead><tbody><tr><th scope="row">1</th><td>1</td><td>1</td><td>0.5</td></tr><tr><th scope="row">10</th><td>10</td><td>0.001</td><td>0.05</td></tr><tr><th scope="row">100</th><td>100</td><td>0.000001</td><td>0.005</td></tr><tr><th scope="row">1,000</th><td>1,000</td><td>0.000000001</td><td>0.0005</td></tr></tbody></table></div>
+          <p>속력은 커지지만 빠른 영역이 더 가파르게 줄어들면, 그 영역이 전체 에너지에 보태는 양은 작아질 수 있습니다. 이 계산은 발산과 유한한 에너지 사이에 <strong>논리적 모순이 없다는 것</strong>을 보여 줍니다. 나비에–스토크스를 만족한다는 증명은 별도로 필요합니다.</p>
+          <div class="callout"><h3 class="callout-title">두 가지 “부피”를 구별하세요</h3><p>3D 그림에서 추적한 <strong>같은 물질 덩어리</strong>는 비압축성 때문에 부피가 유지됩니다. 여기서 줄어드는 것은 <strong>그 순간 높은 속도가 집중된 공간 영역</strong>입니다. 그 영역을 이루는 물 조각은 시간에 따라 바뀔 수 있습니다.</p></div>
+          <blockquote class="pullquote">평균이 온화하다고 해서,<br>모든 지점이 온화한 것은 아니다.</blockquote>
+          <p>에너지가 유한하다는 말이 “에너지가 언제나 일정하다”는 뜻도 아닙니다. 점성은 에너지를 소모하고 외력은 에너지를 공급할 수 있습니다. 이번 발표의 조건은 시간에 따른 전체 에너지가 어떤 유한한 상한 아래에 머문다는 것입니다.</p>
+        </section>
+
+        <section class="chapter" id="proof">
+          <p class="section-kicker">06 / WHERE THE HARD PART LIVES</p>
+          <h2>무한한 속도를 써 넣는 것은 쉽다.<br>매끈한 힘을 남기는 것은 어렵다.</h2>
+          <p>앞서의 b(t) = 1/(1 − t)를 임의로 속도에 넣는 것만으로는 반례가 완성되지 않습니다. 원하는 u와 p를 고른 뒤 방정식을 거꾸로 풀어 f를 정의할 수는 있지만, 그렇게 나온 힘이 특이 시각에서 무한해질 수 있기 때문입니다.</p>
+          <div class="equation" aria-label="외력 f는 속도의 시간 미분 더하기 대류항 더하기 압력 기울기 빼기 점성항">
+            <math display="block"><mrow><mi mathvariant="bold">f</mi><mo>=</mo><mfrac><mrow><mo>∂</mo><mi mathvariant="bold">u</mi></mrow><mrow><mo>∂</mo><mi>t</mi></mrow></mfrac><mo>+</mo><mo>(</mo><mi mathvariant="bold">u</mi><mo>·</mo><mo>∇</mo><mo>)</mo><mi mathvariant="bold">u</mi><mo>+</mo><mo>∇</mo><mi>p</mi><mo>−</mo><mi>ν</mi><mo>Δ</mo><mi mathvariant="bold">u</mi></mrow></math>
+          </div>
+          <p>각 항이 매우 커져도 그 조합은 매끈해야 합니다. 초등적인 비유로, 1/(1 − t) − 1/(1 − t)는 t &lt; 1에서 정확히 0입니다. 큰 항 둘이 정확히 상쇄되면 남는 값은 작을 수 있습니다. 실제 증명에서는 벡터, 공간 변화율, 오차항까지 다루므로 훨씬 복잡합니다. <a class="source-ref" href="#source-2">[2]</a></p>
+          <p>“남는 값이 작다”만으로도 부족합니다. 특이 시각을 포함해 외력과 그 모든 차수의 변화율이 매끈하게 이어져야 합니다. 또한 흐름은 비압축 조건을 만족하고, 전체 공간의 에너지도 제어되어야 합니다. 아름다운 소용돌이 그림과 수학적 반례 사이의 거리가 여기 있습니다.</p>
+          <div class="split"><div class="mini-card"><p class="fact-label">관찰</p><h3>화면의 숫자가 커진다</h3><p>계산 격자가 거칠거나 오차가 증폭되어도 숫자는 폭주합니다. 시뮬레이션은 후보를 찾거나 직관을 얻는 데 도움이 됩니다.</p></div><div class="mini-card"><p class="fact-label">증명</p><h3>어떤 상한도 충분하지 않다</h3><p>방정식과 모든 조건을 충족하는 정확한 흐름에 대해, 유한한 속도 상한이 없음을 보여야 합니다. 화면의 큰 숫자만으로는 부족합니다.</p></div></div>
+          <p>이 리포트의 그림은 이 조건들을 검증하지 않습니다. 회전, 극한, 부피, 에너지의 관계를 독자가 직접 살펴보는 도구입니다. 고등학교 수준에서 이해할 수 있는 것은 <strong>왜 이런 반례가 가능해 보이는지, 그리고 무엇을 증명해야 하는지</strong>까지입니다. 원문의 전체 증명에는 고급 해석학이 필요합니다.</p>
+        </section>
+
+        <section class="chapter" id="verification">
+          <p class="section-kicker">07 / READING A CLAIM CAREFULLY</p>
+          <h2>증명이 공개됐다는 것과<br>검토가 끝났다는 것은 다르다.</h2>
+          <ol class="number-list">
+            <li><time datetime="2026-09-08">2026. 09. 08.</time><h3>OpenAI의 발표와 자료 공개</h3><p>논문과 Lean 4 형식 증명 저장소가 공개됐습니다. 저장소는 전체 공간과 주기적인 공간에서 Clay의 C·D 대안을 증명한다고 명시합니다. <a class="source-ref" href="#source-1">[1]</a> <a class="source-ref" href="#source-6">[6]</a></p></li>
+            <li><time datetime="2026-09-11">2026. 09. 11.</time><h3>Clay의 신중한 평가 안내</h3><p>Clay는 발표를 환영하면서 결과와 공로를 평가하는 절차를 서두르지 않겠다고 설명했습니다. 이 성명은 최종 상 수여 공고가 아닙니다. <a class="source-ref" href="#source-4">[4]</a></p></li>
+            <li><time datetime="2026-10-06">2026. 10. 06.</time><h3>원문과 형식 증명의 대응에 관한 문제 제기</h3><p>Bastounis, Circelli, Hansen의 사전논문은 자연어 논문과 Lean 사이에서 일부 보조정리의 가정과 증명 경로가 달라진다고 지적했습니다. 저자들은 원문 증명 자체의 옳고 그름을 판단하지 않는다고 명시합니다. 따라서 이를 “반례가 틀렸다고 입증됐다”로 읽으면 지나칩니다. <a class="source-ref" href="#source-5">[5]</a></p></li>
+          </ol>
+          <p>Lean은 사람이 읽는 논증을 엄격한 형식 언어로 적고 논리적 단계를 확인하는 도구입니다. 하지만 “코드에 적힌 명제가 증명됐다”와 “원래 글의 모든 단계가 그대로 검증됐다”는 별개의 질문입니다. 원문과 형식화의 대응을 살피는 이유가 여기에 있습니다.</p>
+          <details class="math-note"><summary>그 차이를 고등학교 수학으로 비유하면</summary><p>어떤 글이 “실수 x 모두에 대해 식 A가 성립한다”고 했는데, 형식 코드가 “x ≥ 0인 경우에 식 A가 성립한다”를 증명했다면 코드는 옳아도 글의 더 넓은 주장을 보장하지는 못합니다. <strong>이것은 설명을 위한 비유이며, 실제 논문에서 이런 x 조건 오류가 발견됐다는 뜻은 아닙니다.</strong> 실제 문제 제기 중 하나는 함수의 변화를 제어할 때 원문과 Lean이 요구하는 미분의 차수가 다르다는 것입니다. <a class="source-ref" href="#source-5">[5]</a></p></details>
+          <div class="status-box"><span class="source-tag">이 글의 표현 기준</span><p>“매끈한 외력이 있는 경우의 유한시간 발산 구성을 <strong>발표했다</strong>.” “원문과 형식 증명의 대응에 관한 <strong>검토가 이어지고 있다</strong>.” 이 두 문장을 함께 기억하면 발표를 축소하지 않으면서도 최종 인정과 구별할 수 있습니다.</p></div>
+        </section>
+
+        <section class="chapter" id="questions">
+          <p class="section-kicker">08 / QUESTIONS TO TAKE AWAY</p>
+          <h2>물을 다시 바라보게 하는<br>네 가지 질문.</h2>
+          <div class="question-list">
+            <details open><summary>컵을 세게 저으면 정말 속도가 무한대가 되나요?</summary><p>그 결론은 나오지 않습니다. 발표는 특정 조건을 정교하게 설계한 수학적 흐름에 관한 것입니다. 분자로 이루어진 실제 물이 무한한 속도로 움직인다는 예측으로 읽을 수는 없습니다.</p></details>
+            <details open><summary>외력이 있다면 밀레니엄 문제의 반례가 아닌가요?</summary><p>공식 문제의 C·D 대안은 조건에 맞는 매끈한 외력을 허용합니다. 반면 A·B는 외력이 없는 경우의 전역 매끈함을 묻습니다. 따라서 외력이 있는 C·D의 구성은 공식 문제의 한 대안을 다루지만, 무외력 A·B를 부정한 것과 같지는 않습니다. <a class="source-ref" href="#source-3">[3]</a> <a class="source-ref" href="#source-6">[6]</a></p></details>
+            <details open><summary>왜 굳이 3차원인가요?</summary><p>평면에는 없는 축 방향 늘어남이 회전의 구조를 바꿀 수 있기 때문입니다. 적절한 매끈한 조건 아래 2D 비압축 나비에–스토크스의 전역 매끈성은 알려져 있습니다. 이 글의 2D 그림은 3D 흐름을 잘라 본 단면입니다. <a class="source-ref" href="#source-3">[3]</a></p></details>
+            <details open><summary>방정식이 쓸모없어지는 건가요?</summary><p>반례 하나는 모든 유체 계산을 폐기하라는 뜻이 아닙니다. 모형이 언제까지 매끈하게 유지된다고 보장할 수 있는지 그 경계를 묻습니다. 특이 시각 이후의 일반화된 해, 실제 분자 규모의 물리, 외력 없는 흐름의 문제도 서로 구별해야 합니다.</p></details>
+          </div>
+          <div class="closing"><span class="closing-mark" aria-hidden="true">∿</span><p>이 이야기의 매력은 물이 갑자기 마법처럼 폭주한다는 데 있지 않습니다. <strong>전체가 유한해도 한 곳은 끝없이 커질 수 있다는 것, 그리고 부드러운 규칙에서도 극단적인 결과가 가능한지 묻는다는 것.</strong> 물 한 컵 속에, 우리가 아직 다 읽지 못한 수학이 있습니다.</p></div>
+        </section>
+
+        <section class="chapter" id="sources">
+          <p class="section-kicker">09 / REFERENCES &amp; READING NOTES</p>
+          <h2>발표로 돌아가는 길.</h2>
+          <p>1차 자료를 우선 확인했습니다. 최근 연구의 상태는 바뀔 수 있으므로, 이 글의 확인 시점은 <time datetime="2026-10-10">2026년 10월 10일</time>입니다. 그림·숫자 실험·비유는 이 리포트에서 만든 교육 자료이며 원문의 도표를 복제하지 않았습니다.</p>
+          <ol class="source-list">
+            <li id="source-1"><span class="source-tag">발표 · 2026. 09. 08.</span><a href="https://openai.com/index/navier-stokes-solution/" target="_blank" rel="noopener noreferrer">OpenAI — On the Navier–Stokes Millennium Prize Problem ↗</a><p class="source-note">발표 시점, 사용 시스템, 결과의 범위에 대한 연구 주체의 설명.</p></li>
+            <li id="source-2"><span class="source-tag">연구 원문 · 166쪽</span><a href="https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf" target="_blank" rel="noopener noreferrer">OpenAI — Finite Time Blowup for Navier–Stokes ↗</a><p class="source-note">Theorem 1.1, §2의 물리적 설명, §10의 전체 공간 구성. 전체 증명의 정확성을 이 리포트가 독립 검증했다는 뜻은 아닙니다.</p></li>
+            <li id="source-3"><span class="source-tag">공식 문제 정의</span><a href="https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf" target="_blank" rel="noopener noreferrer">Charles L. Fefferman — Existence and Smoothness of the Navier–Stokes Equation ↗</a><p class="source-note">방정식, 초기 조건, 외력 조건, A·B·C·D의 차이, 2D와 3D의 구별.</p></li>
+            <li id="source-4"><span class="source-tag">Clay 성명 · 2026. 09. 11.</span><a href="https://www.claymath.org/news/navier-stokes-announcement/" target="_blank" rel="noopener noreferrer">Clay Mathematics Institute — Navier-Stokes Announcement ↗</a><p class="source-note">발표에 대한 반응과 최종 평가 절차에 관한 안내.</p></li>
+            <li id="source-5"><span class="source-tag">사전논문 v1 · 2026. 10. 06.</span><a href="https://arxiv.org/html/2610.08144v1" target="_blank" rel="noopener noreferrer">Bastounis · Circelli · Hansen — Navier–Stokes lost in translation ↗</a><p class="source-note">§1의 검토 범위와 disclaimer, §3의 원문·Lean 불일치 사례. 결과 자체의 반증을 주장하는 논문으로 소개하지 않았습니다.</p></li>
+            <li id="source-6"><span class="source-tag">공식 형식 증명 저장소</span><a href="https://github.com/openai/NavierStokesAndEuler" target="_blank" rel="noopener noreferrer">openai / NavierStokesAndEuler ↗</a><p class="source-note">C·D에 대한 목표 명제, Lean 빌드 및 독립 검증 안내. 별도의 무외력 Euler 결과도 있으므로 Navier–Stokes와 혼동하지 마세요.</p></li>
+          </ol>
+          <details class="math-note"><summary>표현과 시각화의 범위</summary><p>수식은 브라우저의 MathML로 표시하며 외부 수식 서버를 사용하지 않습니다. 2D 흐름과 3D 튜브는 일정한 a·Ω를 가진 국소 기하 모형이고, 전 공간에서 유한 에너지를 갖는 실제 반례가 아닙니다. 발산 그래프와 에너지 표의 증가율도 교육용 예시입니다. 모션 감소 설정을 존중하며, 인쇄 메뉴로 현재 그림을 포함한 PDF를 저장할 수 있습니다.</p></details>
+        </section>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer"><span>THE FLUID NOTE <span aria-hidden="true">/</span> Navier-Stokes_Equations</span><span>한국어 해설 · 수식 · 2D &amp; 3D</span><a href="https://github.com/aidevksh/Navier-Stokes_Equations" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://github.com/aidevksh/Navier-Stokes_Equations/blob/main/LICENSE">Apache 2.0</a><a href="#intro">처음으로 ↑</a></footer>
+  <noscript><p class="noscript-note">JavaScript가 꺼져 있어 인터랙티브 그림은 실행되지 않습니다. 본문, 수식, 표와 각 그림의 대체 설명은 읽을 수 있습니다.</p></noscript>
+<script>
+/* Offline canvas illustrations. These are explanatory models, not solutions
+   of the Navier–Stokes Millennium problem or numerical reproductions of a paper. */
+(() => {
+  'use strict';
+
+  const C = {
+    bg: '#0b1720', grid: 'rgba(169,193,203,.10)', muted: '#9aaeb8',
+    white: '#eff2e9', cyan: '#4ee3c1', amber: '#ffa862', blue: '#81a9ff',
+  };
+  const TAU = Math.PI * 2;
+  const reducedQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reducedMotion = reducedQuery.matches;
+  let printing = false;
+  let frame = 0;
+  let lastTime = 0;
+  const scenes = [];
+  const $ = id => document.getElementById(id);
+  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+  const fixed = (n, places = 2) => n.toFixed(places);
+
+  function requestDraw() {
+    if (!frame && !document.hidden && !printing) frame = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    frame = 0;
+    const dt = lastTime ? Math.min((now - lastTime) / 1000, 0.04) : 0;
+    lastTime = now;
+    let continuing = false;
+    for (const scene of scenes) {
+      if (!scene.surface.visible) continue;
+      const moving = scene.isMoving();
+      if (moving) scene.update(dt);
+      if (scene.dirty || moving) {
+        scene.draw();
+        scene.dirty = false;
+      }
+      continuing ||= moving;
+    }
+    if (continuing && !document.hidden) frame = requestAnimationFrame(tick);
+    else lastTime = 0;
+  }
+
+  class Surface {
+    constructor(canvas) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d', { alpha: false });
+      this.visible = true;
+      this.width = 1;
+      this.height = 1;
+      this.onResize = null;
+      this.resize = () => {
+        const rect = canvas.getBoundingClientRect();
+        this.width = Math.max(rect.width, 1);
+        this.height = Math.max(rect.height, 1);
+        const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+        const bw = Math.round(this.width * dpr);
+        const bh = Math.round(this.height * dpr);
+        if (canvas.width !== bw || canvas.height !== bh) {
+          canvas.width = bw;
+          canvas.height = bh;
+        }
+        this.ctx.setTransform(bw / this.width, 0, 0, bh / this.height, 0, 0);
+        this.onResize?.();
+        requestDraw();
+      };
+      if ('ResizeObserver' in window) {
+        this.resizeObserver = new ResizeObserver(this.resize);
+        this.resizeObserver.observe(canvas);
+      } else window.addEventListener('resize', this.resize);
+      if ('IntersectionObserver' in window) {
+        this.visibilityObserver = new IntersectionObserver(entries => {
+          this.visible = entries[0].isIntersecting;
+          if (this.visible) {
+            this.onResize?.();
+            requestDraw();
+          }
+        }, { rootMargin: '80px' });
+        this.visibilityObserver.observe(canvas);
+      }
+      this.resize();
+    }
+
+    clear() {
+      const { ctx, width: w, height: h } = this;
+      ctx.fillStyle = C.bg;
+      ctx.fillRect(0, 0, w, h);
+      const glow = ctx.createRadialGradient(w * .5, h * .48, 0, w * .5, h * .48, w * .7);
+      glow.addColorStop(0, 'rgba(39,79,86,.25)');
+      glow.addColorStop(1, 'rgba(11,23,32,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+    }
+  }
+
+  function register(scene) {
+    scene.dirty = true;
+    scene.surface.onResize = () => {
+      scene.dirty = true;
+      if (printing) {
+        scene.draw();
+        scene.dirty = false;
+      }
+    };
+    scenes.push(scene);
+    requestDraw();
+    return scene;
+  }
+
+  function text(ctx, words, x, y, color = C.muted, size = 12, align = 'left') {
+    ctx.font = `${size}px system-ui, -apple-system, BlinkMacSystemFont, sans-serif`;
+    ctx.fillStyle = color;
+    ctx.textAlign = align;
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(words, x, y);
+  }
+
+  function modelNote(surface, words = '기하학적 개념 모형 · 실제 논문의 해 아님') {
+    const { ctx, width: w, height: h } = surface;
+    text(ctx, words, w - 14, h - 14, C.muted, w < 420 ? 10 : 11, 'right');
+  }
+
+  function path(ctx, points, color, width = 1, closed = false) {
+    if (!points.length) return;
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+    if (closed) ctx.closePath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke();
+  }
+
+  function dot(ctx, x, y, radius, color) {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, TAU);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function arrow(ctx, x1, y1, x2, y2, color, width = 1) {
+    const angle = Math.atan2(y2 - y1, x2 - x1);
+    const head = 4;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.moveTo(x2 - head * Math.cos(angle - .55), y2 - head * Math.sin(angle - .55));
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(x2 - head * Math.cos(angle + .55), y2 - head * Math.sin(angle + .55));
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke();
+  }
+
+  function rng(seed) {
+    return () => {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
+  }
+
+  function stats(container, items) {
+    if (!container) return;
+    container.replaceChildren(...items.map(([label, value]) => {
+      const card = document.createElement('span');
+      card.className = 'viz-stat';
+      const name = document.createElement('span');
+      name.textContent = label;
+      const number = document.createElement('strong');
+      number.textContent = value;
+      card.append(name, number);
+      return card;
+    }));
+  }
+
+  // Decorative vortex: layered three-dimensional helices, not a fluid solver.
+  class Hero {
+    constructor(canvas) {
+      this.surface = new Surface(canvas);
+      this.phase = 0;
+      register(this);
+    }
+    isMoving() { return !reducedMotion; }
+    update(dt) { this.phase += dt * .19; }
+    draw() {
+      const s = this.surface;
+      const { ctx, width: w, height: h } = s;
+      s.clear();
+      const centerX = w * .61, centerY = h * .48;
+      const scale = Math.min(w * .31, h * .43);
+      const project = (x, y, z) => {
+        const yaw = -.46;
+        const a = x * Math.cos(yaw) - y * Math.sin(yaw);
+        const b = x * Math.sin(yaw) + y * Math.cos(yaw);
+        const vertical = z * .79 - b * .61;
+        const depth = b * .79 + z * .61;
+        const f = 5.3 / (5.3 + depth);
+        const px = a * f * scale, py = -vertical * f * scale;
+        const roll = -.25;
+        return { x: centerX + px * Math.cos(roll) - py * Math.sin(roll),
+          y: centerY + px * Math.sin(roll) + py * Math.cos(roll), depth };
+      };
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      const filaments = [];
+      for (let j = 0; j < 34; j++) {
+        const points = [];
+        let depth = 0;
+        const theta = TAU * j / 34;
+        for (let k = 0; k <= 110; k++) {
+          const t = k / 110;
+          const z = (t - .5) * 3.65;
+          const radius = .14 + .91 * Math.pow(Math.abs(t - .5) * 2, .80);
+          const angle = theta + t * 7.2 + this.phase;
+          const p = project(radius * Math.cos(angle), radius * Math.sin(angle), z);
+          points.push(p);
+          depth += p.depth;
+        }
+        filaments.push({ points, depth: depth / points.length, j });
+      }
+      filaments.sort((a, b) => b.depth - a.depth);
+      for (const filament of filaments) {
+        const alpha = clamp(.34 - filament.depth * .14, .10, .70);
+        const rgb = filament.j % 7 === 0 ? '255,168,98' : '78,227,193';
+        path(ctx, filament.points, `rgba(${rgb},${alpha})`, filament.j % 7 === 0 ? 1.7 : 1);
+        const p = filament.points[Math.floor((this.phase * 16 + filament.j * 3) % 111)];
+        dot(ctx, p.x, p.y, filament.j % 7 === 0 ? 2.4 : 1.4, `rgba(${rgb},.82)`);
+      }
+      ctx.restore();
+      modelNote(s, '회전과 집중을 표현한 시각적 개념도');
+    }
+  }
+
+  // The xy section of u=(-ax-Ωy, Ωx-ay, 2az). Only the full 3D field
+  // is divergence-free. Exact trajectory updates keep the illustration stable.
+  class Flow {
+    constructor(canvas) {
+      this.surface = new Surface(canvas);
+      this.omega = Number($('swirl')?.value || 1.4);
+      this.inflow = Number($('inflow')?.value || .35);
+      this.playing = !reducedMotion;
+      this.particles = [];
+      this.random = rng(73191);
+      this.resetParticles();
+      this.toggle = $('flow-toggle');
+      this.toggle?.addEventListener('click', () => {
+        this.playing = !this.playing;
+        this.updateLabels();
+        requestDraw();
+      });
+      $('flow-reset')?.addEventListener('click', () => {
+        this.omega = 1.4;
+        this.inflow = .35;
+        if ($('swirl')) $('swirl').value = '1.4';
+        if ($('inflow')) $('inflow').value = '.35';
+        this.resetParticles();
+        this.dirty = true;
+        this.updateLabels();
+        requestDraw();
+      });
+      for (const [id, prop] of [['swirl', 'omega'], ['inflow', 'inflow']]) {
+        $(id)?.addEventListener('input', event => {
+          this[prop] = Number(event.target.value);
+          this.dirty = true;
+          this.updateLabels();
+          requestDraw();
+        });
+      }
+      this.updateLabels();
+      register(this);
+    }
+
+    resetParticles() {
+      this.random = rng(73191);
+      this.particles = Array.from({ length: 100 }, (_, i) => {
+        const angle = this.random() * TAU;
+        const radius = .12 + Math.sqrt(this.random()) * 1.08;
+        const p = { x: radius * Math.cos(angle), y: radius * Math.sin(angle),
+          age: this.random() * 10, tone: i % 9 === 0, trail: [] };
+        p.trail.push({ x: p.x, y: p.y });
+        return p;
+      });
+    }
+
+    updateLabels() {
+      if ($('swirl-value')) $('swirl-value').textContent = fixed(this.omega, 1);
+      if ($('inflow-value')) $('inflow-value').textContent = fixed(this.inflow, 2);
+      if (this.toggle) {
+        this.toggle.textContent = this.playing ? '일시 정지' : '재생';
+        this.toggle.setAttribute('aria-pressed', String(this.playing));
+      }
+      if ($('flow-status')) {
+        const field = this.inflow === 0 && this.omega === 0 ? '회전과 유입이 모두 0이므로 입자가 움직이지 않습니다.'
+          : this.inflow === 0 ? '안쪽 유입이 없어 원을 따라 회전합니다.'
+          : this.omega === 0 ? '회전이 없어 중심을 향해 곧게 모입니다.'
+          : '입자가 회전하며 중심으로 모입니다. 3D 흐름의 가로 단면입니다.';
+        $('flow-status').textContent = `${this.playing ? '재생 중' : '정지됨'} · ${field}`;
+      }
+    }
+
+    isMoving() { return this.playing && (this.omega !== 0 || this.inflow !== 0); }
+    update(dt) {
+      if (!dt) return;
+      const decay = Math.exp(-this.inflow * dt);
+      const angle = this.omega * dt;
+      const co = Math.cos(angle), si = Math.sin(angle);
+      for (const p of this.particles) {
+        const x = (p.x * co - p.y * si) * decay;
+        const y = (p.x * si + p.y * co) * decay;
+        p.x = x; p.y = y; p.age += dt;
+        p.trail.push({ x, y });
+        if (p.trail.length > 38) p.trail.shift();
+        if (Math.hypot(x, y) < .055 || (this.inflow > 0 && p.age > 22)) {
+          const a = this.random() * TAU;
+          const r = 1.08 + this.random() * .13;
+          p.x = Math.cos(a) * r;
+          p.y = Math.sin(a) * r;
+          p.age = 0;
+          p.trail = [{ x: p.x, y: p.y }];
+        }
+      }
+    }
+
+    draw() {
+      const s = this.surface;
+      const { ctx, width: w, height: h } = s;
+      s.clear();
+      const radius = Math.min(w * .40, h * .37);
+      const cx = w * .5, cy = h * .50;
+      const screen = p => ({ x: cx + p.x * radius, y: cy - p.y * radius });
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = C.grid;
+      for (let i = -4; i <= 4; i++) {
+        const p = i / 4 * radius;
+        ctx.beginPath();
+        ctx.moveTo(cx + p, cy - radius * 1.25);
+        ctx.lineTo(cx + p, cy + radius * 1.25);
+        ctx.moveTo(cx - radius * 1.25, cy + p);
+        ctx.lineTo(cx + radius * 1.25, cy + p);
+        ctx.stroke();
+      }
+      for (const r of [.25, .5, .75, 1]) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * radius, 0, TAU);
+        ctx.stroke();
+      }
+      for (let iy = -4; iy <= 4; iy++) {
+        for (let ix = -5; ix <= 5; ix++) {
+          const x = ix * .22, y = iy * .22;
+          if (Math.hypot(x, y) < .11 || Math.hypot(x, y) > 1.18) continue;
+          const vx = -this.inflow * x - this.omega * y;
+          const vy = this.omega * x - this.inflow * y;
+          const magnitude = Math.hypot(vx, vy);
+          if (magnitude < .001) continue;
+          const length = Math.min(magnitude * .095, .145);
+          const start = screen({ x: x - vx / magnitude * length * .5,
+            y: y - vy / magnitude * length * .5 });
+          const end = screen({ x: x + vx / magnitude * length * .5,
+            y: y + vy / magnitude * length * .5 });
+          arrow(ctx, start.x, start.y, end.x, end.y, 'rgba(154,174,184,.48)');
+        }
+      }
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 35, w, h - 65);
+      ctx.clip();
+      for (const p of this.particles) {
+        const points = p.trail.map(screen);
+        path(ctx, points, p.tone ? 'rgba(255,168,98,.50)' : 'rgba(78,227,193,.36)', 1.2);
+        const head = screen(p);
+        dot(ctx, head.x, head.y, p.tone ? 2.5 : 1.8, p.tone ? C.amber : C.cyan);
+      }
+      ctx.restore();
+      dot(ctx, cx, cy, 3, C.white);
+      text(ctx, 'xy 단면', 16, 24, C.white, 12);
+      text(ctx, 'u = (−ax − Ωy, Ωx − ay)', w - 16, 24, C.muted, w < 420 ? 10 : 12, 'right');
+      text(ctx, 'x', cx + radius * 1.28, cy + 4, C.muted, 12);
+      text(ctx, 'y', cx - 3, cy - radius * 1.28, C.muted, 12);
+      modelNote(s, w < 440 ? '3D 흐름의 단면 · 개념 모형' : '3D 비압축 흐름의 단면 · 실제 논문의 해 아님');
+    }
+  }
+
+  class Vortex {
+    constructor(canvas) {
+      this.surface = new Surface(canvas);
+      this.s = Number($('stretch')?.value || .35);
+      this.auto = false;
+      this.cycle = Math.acos(clamp(1 - 2 * this.s, -1, 1));
+      this.yaw = -.62;
+      this.pitch = .40;
+      this.roll = -.15;
+      this.drag = null;
+      this.toggle = $('vortex-toggle');
+      this.toggle?.addEventListener('click', () => {
+        this.auto = !this.auto;
+        this.cycle = Math.acos(clamp(1 - 2 * this.s, -1, 1));
+        this.updateLabels();
+        requestDraw();
+      });
+      $('stretch')?.addEventListener('input', event => {
+        this.s = Number(event.target.value);
+        this.auto = false;
+        this.updateLabels();
+        this.dirty = true;
+        requestDraw();
+      });
+      $('vortex-reset')?.addEventListener('click', () => {
+        this.s = .35;
+        this.auto = false;
+        this.resetCamera();
+        if ($('stretch')) $('stretch').value = '.35';
+        this.updateLabels();
+        this.dirty = true;
+        requestDraw();
+      });
+      canvas.style.touchAction = 'none';
+      if (!canvas.hasAttribute('tabindex')) canvas.tabIndex = 0;
+      canvas.setAttribute('aria-keyshortcuts', 'ArrowLeft ArrowRight ArrowUp ArrowDown Home');
+      canvas.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        this.drag = { x: event.clientX, y: event.clientY };
+        canvas.setPointerCapture(event.pointerId);
+        canvas.style.cursor = 'grabbing';
+      });
+      canvas.addEventListener('pointermove', event => {
+        if (!this.drag) return;
+        this.yaw += (event.clientX - this.drag.x) * .009;
+        this.pitch = clamp(this.pitch + (event.clientY - this.drag.y) * .006, -.90, .90);
+        this.drag = { x: event.clientX, y: event.clientY };
+        this.dirty = true;
+        requestDraw();
+      });
+      const endDrag = () => {
+        this.drag = null;
+        canvas.style.cursor = 'grab';
+      };
+      canvas.addEventListener('pointerup', endDrag);
+      canvas.addEventListener('pointercancel', endDrag);
+      canvas.addEventListener('lostpointercapture', endDrag);
+      canvas.addEventListener('keydown', event => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'ArrowLeft') this.yaw -= .15;
+        if (event.key === 'ArrowRight') this.yaw += .15;
+        if (event.key === 'ArrowUp') this.pitch = clamp(this.pitch - .10, -.90, .90);
+        if (event.key === 'ArrowDown') this.pitch = clamp(this.pitch + .10, -.90, .90);
+        if (event.key === 'Home') this.resetCamera();
+        this.dirty = true;
+        requestDraw();
+      });
+      canvas.style.cursor = 'grab';
+      this.updateLabels();
+      register(this);
+    }
+
+    resetCamera() {
+      this.yaw = -.62;
+      this.pitch = .40;
+      this.roll = -.15;
+    }
+
+    updateLabels() {
+      if ($('stretch-value')) $('stretch-value').textContent = fixed(this.s, 2);
+      const r = Math.exp(-this.s), l = Math.exp(2 * this.s);
+      stats($('vortex-stats'), [
+        ['R/R₀ = e⁻ˢ', fixed(r, 3)],
+        ['L/L₀ = e²ˢ', fixed(l, 3)],
+        ['V/V₀', fixed(r * r * l, 3)],
+      ]);
+      if (this.toggle) {
+        this.toggle.textContent = this.auto ? '자동 변화 멈춤' : '자동 변화 보기';
+        this.toggle.setAttribute('aria-pressed', String(this.auto));
+      }
+    }
+
+    isMoving() { return this.auto; }
+    update(dt) {
+      this.cycle += dt * .55;
+      this.s = (1 - Math.cos(this.cycle)) / 2;
+      if ($('stretch')) $('stretch').value = String(this.s);
+      this.updateLabels();
+    }
+
+    draw() {
+      const surface = this.surface;
+      const { ctx, width: w, height: h } = surface;
+      surface.clear();
+      const radius = .9 * Math.exp(-this.s);
+      const length = 1.1 * Math.exp(2 * this.s);
+      const cx = w * .50, cy = h * .49;
+      const co = Math.cos(this.yaw), si = Math.sin(this.yaw);
+      const cp = Math.cos(this.pitch), sp = Math.sin(this.pitch);
+      const cr = Math.cos(this.roll), sr = Math.sin(this.roll);
+      const unitProject = (x, y, z) => {
+        const a = x * co - y * si;
+        const b = x * si + y * co;
+        const vertical = z * cp - b * sp;
+        const depth = b * cp + z * sp;
+        const f = 12 / (12 + depth);
+        const px = a * f, py = -vertical * f;
+        return { x: px * cr - py * sr, y: px * sr + py * cr, depth };
+      };
+      // Fit the current tube and the initial outline together. This is camera
+      // magnification, not an extra material deformation; ratios remain exact.
+      let extentX = .1, extentY = .1;
+      for (const [r, l] of [[radius, length], [.9, 1.1]]) {
+        for (let k = 0; k < 64; k++) {
+          const a = k / 64 * TAU;
+          for (const z of [-l / 2, l / 2]) {
+            const p = unitProject(r * Math.cos(a), r * Math.sin(a), z);
+            extentX = Math.max(extentX, Math.abs(p.x));
+            extentY = Math.max(extentY, Math.abs(p.y));
+          }
+        }
+      }
+      const scale = Math.min(w * .31 / extentX, h * .34 / extentY);
+      const project = (x, y, z) => {
+        const p = unitProject(x, y, z);
+        return { x: cx + p.x * scale, y: cy + p.y * scale, depth: p.depth };
+      };
+      const ring = (r, z, theta = 0, count = 72) => Array.from({ length: count + 1 }, (_, k) => {
+        const angle = k / count * TAU + theta;
+        return project(r * Math.cos(angle), r * Math.sin(angle), z);
+      });
+
+      // A static initial tube supplies a simultaneous material-size comparison.
+      ctx.setLineDash([4, 6]);
+      path(ctx, ring(.9, -.55), 'rgba(154,174,184,.28)');
+      path(ctx, ring(.9, .55), 'rgba(154,174,184,.28)');
+      for (let j = 0; j < 8; j++) {
+        const a = j / 8 * TAU;
+        path(ctx, [project(.9 * Math.cos(a), .9 * Math.sin(a), -.55),
+          project(.9 * Math.cos(a), .9 * Math.sin(a), .55)], 'rgba(154,174,184,.20)');
+      }
+      ctx.setLineDash([]);
+
+      // The surface is built in xyz first, then depth-sorted for perspective rendering.
+      const strips = [];
+      const spin = this.s * TAU * 1.1;
+      for (let j = 0; j < 48; j++) {
+        const a = j / 48 * TAU + spin;
+        const b = (j + 1) / 48 * TAU + spin;
+        const verts = [project(radius * Math.cos(a), radius * Math.sin(a), -length / 2),
+          project(radius * Math.cos(b), radius * Math.sin(b), -length / 2),
+          project(radius * Math.cos(b), radius * Math.sin(b), length / 2),
+          project(radius * Math.cos(a), radius * Math.sin(a), length / 2)];
+        strips.push({ verts, depth: verts.reduce((sum, p) => sum + p.depth, 0) / 4 });
+      }
+      strips.sort((a, b) => b.depth - a.depth);
+      for (const strip of strips) {
+        ctx.beginPath();
+        ctx.moveTo(strip.verts[0].x, strip.verts[0].y);
+        for (const p of strip.verts.slice(1)) ctx.lineTo(p.x, p.y);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(78,227,193,${clamp(.025 - strip.depth * .01, .008, .07)})`;
+        ctx.fill();
+      }
+
+      const lines = [];
+      for (let j = 0; j <= 12; j++) {
+        const z = (j / 12 - .5) * length;
+        const points = ring(radius, z, spin);
+        lines.push({ points, color: j === 0 || j === 12 ? C.cyan : 'rgba(78,227,193,.40)',
+          width: j === 0 || j === 12 ? 1.6 : .8,
+          depth: points.reduce((sum, p) => sum + p.depth, 0) / points.length });
+      }
+      for (let j = 0; j < 14; j++) {
+        const points = [];
+        for (let k = 0; k <= 100; k++) {
+          const t = k / 100;
+          const a = j / 14 * TAU + t * TAU * 1.35 + spin;
+          points.push(project(radius * Math.cos(a), radius * Math.sin(a), (t - .5) * length));
+        }
+        lines.push({ points, color: j % 5 === 0 ? 'rgba(255,168,98,.9)' : 'rgba(78,227,193,.70)',
+          width: j % 5 === 0 ? 1.9 : 1.1,
+          depth: points.reduce((sum, p) => sum + p.depth, 0) / points.length });
+      }
+      lines.sort((a, b) => b.depth - a.depth);
+      for (const line of lines) path(ctx, line.points, line.color, line.width);
+      for (let j = 0; j < 20; j++) {
+        const t = j / 19;
+        const a = t * TAU * 1.35 + spin;
+        const p = project(radius * Math.cos(a), radius * Math.sin(a), (t - .5) * length);
+        dot(ctx, p.x, p.y, 2.5, C.amber);
+      }
+
+      // World-axis indicator changes with the same camera as the actual tube.
+      const origin = project(0, 0, 0);
+      const baseX = 38, baseY = h - 55;
+      for (const [p, label, color] of [
+        [project(1, 0, 0), 'x', C.amber],
+        [project(0, 1, 0), 'y', C.blue],
+        [project(0, 0, 1), 'z', C.cyan],
+      ]) {
+        const dx = (p.x - origin.x) / scale * 25;
+        const dy = (p.y - origin.y) / scale * 25;
+        arrow(ctx, baseX, baseY, baseX + dx, baseY + dy, color, 1.2);
+        text(ctx, label, baseX + dx * 1.25, baseY + dy * 1.25 + 4, color, 11, 'center');
+      }
+      text(ctx, `s = ${fixed(this.s, 2)}`, 16, 25, C.white, 13);
+      text(ctx, '점선: s=0 · 화면 배율 자동 조절', 16, 46, C.muted, w < 440 ? 10 : 11);
+      text(ctx, w < 440 ? '드래그 / 화살표 키' : '드래그·화살표 키로 회전 · Home으로 복원', w - 16, 25, C.muted, w < 440 ? 10 : 11, 'right');
+      const top = project(0, 0, length / 2);
+      const bottom = project(0, 0, -length / 2);
+      const braceX = clamp(Math.max(top.x, bottom.x) + radius * scale + 28, w * .62, w - 48);
+      ctx.strokeStyle = 'rgba(255,168,98,.55)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(braceX - 5, top.y);
+      ctx.lineTo(braceX + 5, top.y);
+      ctx.moveTo(braceX, top.y);
+      ctx.lineTo(braceX, bottom.y);
+      ctx.moveTo(braceX - 5, bottom.y);
+      ctx.lineTo(braceX + 5, bottom.y);
+      ctx.stroke();
+      text(ctx, 'L', braceX + 11, (top.y + bottom.y) / 2 + 4, C.amber, 13);
+      modelNote(surface, w < 440 ? '부피 일정 · 유한한 변형 · 개념 모형' : '부피 일정 · 유한한 변형 · 실제 논문의 해 아님');
+    }
+  }
+
+  class Blowup {
+    constructor(canvas) {
+      this.surface = new Surface(canvas);
+      this.t = Number($('time-slider')?.value || .6);
+      $('time-slider')?.addEventListener('input', event => {
+        this.t = clamp(Number(event.target.value), 0, .99);
+        this.updateLabels();
+        this.dirty = true;
+        requestDraw();
+      });
+      this.updateLabels();
+      register(this);
+    }
+    isMoving() { return false; }
+    update() {}
+    updateLabels() {
+      if ($('time-value')) $('time-value').textContent = fixed(this.t, 2);
+      stats($('blowup-values'), [
+        ['1/(1−t)', fixed(1 / (1 - this.t), 2)],
+        ['1+t', fixed(1 + this.t, 2)],
+        ['eᵗ', fixed(Math.exp(this.t), 2)],
+      ]);
+    }
+    draw() {
+      const s = this.surface;
+      const { ctx, width: w, height: h } = s;
+      s.clear();
+      const left = w < 430 ? 38 : 48;
+      const right = 28, top = w < 430 ? 82 : 65, bottom = 49;
+      const pw = Math.max(w - left - right, 1), ph = Math.max(h - top - bottom, 1);
+      const x = t => left + t * pw;
+      const y = v => h - bottom - v / 10 * ph;
+      for (let v = 0; v <= 10; v += 2) {
+        path(ctx, [{ x: left, y: y(v) }, { x: w - right, y: y(v) }], C.grid);
+        text(ctx, String(v), left - 10, y(v) + 4, C.muted, 11, 'right');
+      }
+      for (let t = 0; t <= 1.001; t += .2) {
+        path(ctx, [{ x: x(t), y: top }, { x: x(t), y: h - bottom }], C.grid);
+        text(ctx, fixed(t, 1), x(t), h - bottom + 20, C.muted, 11, 'center');
+      }
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(left, top - 1, pw, ph + 2);
+      ctx.clip();
+      const curves = [
+        { fn: t => 1 + t, color: C.blue },
+        { fn: t => Math.exp(t), color: C.cyan },
+        { fn: t => 1 / (1 - t), color: C.amber },
+      ];
+      for (const curve of curves) {
+        const points = [];
+        for (let j = 0; j <= 500; j++) {
+          const t = j / 501;
+          points.push({ x: x(t), y: y(curve.fn(t)) });
+        }
+        path(ctx, points, curve.color, 2.1);
+      }
+      ctx.setLineDash([4, 5]);
+      path(ctx, [{ x: x(this.t), y: top }, { x: x(this.t), y: h - bottom }], 'rgba(239,242,233,.45)');
+      ctx.setLineDash([]);
+      for (const curve of curves) {
+        const value = curve.fn(this.t);
+        if (value <= 10) {
+          dot(ctx, x(this.t), y(value), 5, C.bg);
+          dot(ctx, x(this.t), y(value), 3.5, curve.color);
+        }
+      }
+      ctx.restore();
+      path(ctx, [{ x: left, y: top }, { x: left, y: h - bottom }, { x: w - right, y: h - bottom }], 'rgba(154,174,184,.55)');
+      ctx.setLineDash([5, 5]);
+      path(ctx, [{ x: x(1), y: top }, { x: x(1), y: h - bottom }], C.amber, 1);
+      ctx.setLineDash([]);
+      text(ctx, '값', left - 24, top - 10, C.muted, 12);
+      text(ctx, '시간 t', left + pw * .5, h - 9, C.muted, 11, 'center');
+      text(ctx, 'T = 1', x(1), top - 10, C.amber, 11, 'right');
+      const legend = [['1/(1−t)', C.amber], ['eᵗ', C.cyan], ['1+t', C.blue]];
+      let lx = left;
+      for (const [label, color] of legend) {
+        path(ctx, [{ x: lx, y: 22 }, { x: lx + 17, y: 22 }], color, 2.2);
+        text(ctx, label, lx + 23, 26, color, 12);
+        lx += label === '1/(1−t)' ? 119 : 83;
+      }
+      if (this.t > .9) {
+        text(ctx, `1/(1−t) = ${fixed(1 / (1 - this.t), 1)} · 위쪽 표시 범위 밖`, left, w < 430 ? 53 : 45, C.amber, w < 430 ? 10 : 11);
+        const ax = x(this.t);
+        arrow(ctx, ax, top + 17, ax, top + 2, C.amber, 1.6);
+      }
+      text(ctx, w < 440 ? '함수 예시 · NS 해 아님' : '함수 예시 · 유체 방정식의 해 아님', w - 14, h - 9, C.muted, w < 440 ? 9 : 10, 'right');
+    }
+  }
+
+  const instances = {};
+  const constructors = [['hero-vortex', Hero, 'hero'], ['flow2d', Flow, 'flow'],
+    ['vortex3d', Vortex, 'vortex'], ['blowup-chart', Blowup, 'blowup']];
+  for (const [id, Scene, key] of constructors) {
+    const canvas = $(id);
+    if (canvas?.getContext) instances[key] = new Scene(canvas);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      lastTime = 0;
+    } else {
+      for (const scene of scenes) scene.dirty = true;
+      requestDraw();
+    }
+  });
+  function preparePrint() {
+    printing = true;
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0;
+    lastTime = 0;
+    // Printed figures include canvases that have never entered the viewport.
+    for (const scene of scenes) {
+      scene.surface.resize();
+      scene.draw();
+      scene.dirty = false;
+    }
+  }
+  function finishPrint() {
+    printing = false;
+    for (const scene of scenes) {
+      scene.surface.resize();
+      scene.draw();
+      scene.dirty = false;
+    }
+    requestDraw();
+  }
+  window.addEventListener('beforeprint', preparePrint);
+  window.addEventListener('afterprint', finishPrint);
+  // Covers print-preview layout transitions and print-media emulation as well.
+  window.matchMedia('print').addEventListener?.('change', event => {
+    if (event.matches) preparePrint();
+    else finishPrint();
+  });
+  reducedQuery.addEventListener?.('change', event => {
+    reducedMotion = event.matches;
+    if (reducedMotion) {
+      if (instances.flow) {
+        instances.flow.playing = false;
+        instances.flow.updateLabels();
+      }
+      if (instances.vortex) {
+        instances.vortex.auto = false;
+        instances.vortex.updateLabels();
+      }
+    }
+    for (const scene of scenes) scene.dirty = true;
+    requestDraw();
+  });
+
+  // Small inspection API for offline smoke tests; no network or hidden solvers.
+  window.NSViz = Object.freeze({
+    instances,
+    redraw: () => { for (const scene of scenes) scene.dirty = true; requestDraw(); },
+    materialRatios: s => {
+      const radius = Math.exp(-s), length = Math.exp(2 * s);
+      return { radius, length, volume: radius * radius * length };
+    },
+    sectionField: (x, y, a, omega) => ({ x: -a * x - omega * y, y: omega * x - a * y }),
+  });
+})();
+</script>
+<script>
+/* Copyright 2026 AIDevKSH. Licensed under the Apache License, Version 2.0. */
+(() => {
+  'use strict';
+  const progress = document.getElementById('reading-progress');
+  let queued = false;
+  function updateProgress() {
+    const available = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${available > 0 ? Math.min(100, window.scrollY / available * 100) : 0}%`;
+    queued = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!queued) { queued = true; requestAnimationFrame(updateProgress); }
+  }, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+  document.querySelectorAll('.print-button').forEach(button => button.addEventListener('click', () => window.print()));
+  const links = Array.from(document.querySelectorAll('.toc-link'));
+  const sections = links.map(link => document.querySelector(link.getAttribute('href')));
+  function markCurrent() {
+    let current = sections[0];
+    sections.forEach(section => { if (section.getBoundingClientRect().top <= 180) current = section; });
+    links.forEach(link => {
+      const active = link.getAttribute('href') === `#${current.id}`;
+      link.classList.toggle('is-active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', markCurrent, { passive: true });
+  markCurrent();
+})();
+</script>
+</body>
+</html>

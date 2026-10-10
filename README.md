@@ -10,6 +10,27 @@
 
 다운로드한 `index.html`을 브라우저에서 바로 열어도 됩니다. 외부 라이브러리, 폰트, CDN, 서버 없이 본문·MathML 수식·시각화가 작동합니다. 인쇄 / PDF 버튼으로 PDF 저장도 가능합니다.
 
+## 블로그 iframe용 단일 파일
+
+[목차 없는 단일 HTML 리포트](https://aidevksh.github.io/Navier-Stokes_Equations/embed.html)
+
+`embed.html`은 본문·CSS·JavaScript·아이콘을 모두 포함한 한 파일입니다. 이 파일만 다운로드하거나 호스팅해도 수식과 2D·3D 시각화가 작동합니다. 목차를 제거하고 좁은 iframe에서 본문이 한 열로 화면 폭을 사용하도록 만들었습니다. 외부 링크는 출처와 저장소를 여는 용도로만 사용합니다.
+
+블로그의 HTML 편집기에 다음 코드를 넣으세요. 높이는 블로그에 맞게 조절할 수 있으며, 긴 본문은 iframe 안에서 세로로 스크롤합니다.
+
+```html
+<iframe
+  src="https://aidevksh.github.io/Navier-Stokes_Equations/embed.html"
+  title="소용돌이의 끝에서 — 나비에·스토크스 리포트"
+  width="100%"
+  height="1200"
+  loading="lazy"
+  style="display:block; border:0;"
+></iframe>
+```
+
+본문이나 원본 스타일·스크립트를 수정한 뒤에는 `npm run build:embed`로 단일 파일을 다시 생성합니다. `assets/embed.css`는 이 버전에만 적용되는 좁은 화면용 스타일입니다. 자동 검사는 생성 파일이 원본과 일치하는지도 확인합니다.
+
 ## 시각 자료
 
 - **2D 함수 그래프:** `1/(1−t)`의 유한시간 발산을 직선·지수함수와 비교합니다.
@@ -33,6 +54,8 @@ npm run test:browser
 ```
 
 브라우저 검사에는 로컬 Chromium을 사용할 수 있습니다. macOS에 Google Chrome이 설치되어 있으면 자동 선택하며, `NS_BROWSER_EXECUTABLE`로 경로를 지정할 수도 있습니다. 검사는 인터넷 연결 없는 `file://` 열기, 슬라이더의 수학적 값, 3D 조작, 모션 감소, 모바일 레이아웃, PDF 렌더링을 확인합니다.
+
+단일 파일 버전은 다른 파일이 없는 임시 폴더에서 열어 검사하며, 실제 iframe의 320·375·600·760px 폭과 내부 키보드 조작도 확인합니다.
 
 ## 라이선스
 

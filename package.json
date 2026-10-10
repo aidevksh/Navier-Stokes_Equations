@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Korean educational HTML report on Navier–Stokes finite-time blowup with interactive 2D and 3D visuals",
   "scripts": {
-    "check": "node --check assets/visuals.js && node --check assets/report.js && node scripts/check.cjs",
-    "test:browser": "node scripts/browser-test.cjs",
+    "build:embed": "node scripts/build-embed.cjs",
+    "check": "node --check assets/visuals.js && node --check assets/report.js && node scripts/build-embed.cjs --check && node scripts/check.cjs",
+    "test:browser": "node scripts/browser-test.cjs && node scripts/embed-test.cjs",
     "test": "npm run check && npm run test:browser"
   },
   "keywords": ["navier-stokes", "mathematics", "korean", "education", "visualization"],

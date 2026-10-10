@@ -1,0 +1,380 @@
+/* Narrow, single-column overrides for the self-contained blog embed. */
+body.embed-report {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.85;
+}
+body.embed-report main,
+body.embed-report .report,
+body.embed-report .hero-copy {
+  min-width: 0;
+}
+body.embed-report .site-header {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 19px 20px;
+  gap: 12px;
+}
+body.embed-report .brand {
+  gap: 9px;
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+body.embed-report .brand-symbol { font-size: 25px; }
+body.embed-report .brand-number {
+  margin-left: 3px;
+  padding-left: 10px;
+  font-size: 9px;
+}
+body.embed-report .header-action {
+  padding: 8px 10px;
+  gap: 5px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+body.embed-report .nav-links,
+body.embed-report .toc { display: none; }
+body.embed-report .hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 28px;
+  gap: 25px;
+}
+body.embed-report .eyebrow {
+  margin-bottom: 19px;
+  font-size: 9px;
+  letter-spacing: .1em;
+}
+body.embed-report .hero h1 {
+  margin-bottom: 22px;
+  font-size: clamp(30px, 6.5vw, 42px);
+  line-height: 1.28;
+  letter-spacing: -.055em;
+}
+body.embed-report .hero-deck {
+  max-width: 620px;
+  margin-bottom: 22px;
+  font-size: 15px;
+  line-height: 1.85;
+}
+body.embed-report .hero-meta {
+  gap: 7px 11px;
+  font-size: 9px;
+}
+body.embed-report .hero-meta span + span,
+body.embed-report .hero-meta time { padding-left: 11px; }
+body.embed-report .hero-start {
+  margin-top: 22px;
+  font-size: 11px;
+}
+body.embed-report .hero-art {
+  width: 100%;
+  min-width: 0;
+  border-radius: 3px;
+}
+body.embed-report #hero-vortex { height: 280px; }
+body.embed-report .hero-caption {
+  padding: 14px 17px;
+  font-size: 10px;
+}
+body.embed-report .report-grid {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 0;
+}
+body.embed-report .report {
+  font-size: 16px;
+  line-height: 1.85;
+}
+body.embed-report .chapter {
+  margin-bottom: 52px;
+  scroll-margin-top: 22px;
+}
+body.embed-report .section-kicker {
+  margin-bottom: 12px;
+  font-size: 10px;
+  letter-spacing: .09em;
+}
+body.embed-report .chapter h2 {
+  margin-bottom: 23px;
+  font-size: clamp(24px, 4.8vw, 30px);
+  line-height: 1.5;
+  letter-spacing: -.04em;
+}
+body.embed-report .chapter h3 {
+  font-size: 18px;
+  line-height: 1.6;
+}
+body.embed-report .report .lead {
+  font-size: 18px;
+  line-height: 1.85;
+}
+body.embed-report .fact-box {
+  margin: 26px 0;
+  padding: 22px 20px;
+}
+body.embed-report .fact-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+body.embed-report .fact-card {
+  padding: 17px;
+  font-size: 13px;
+  line-height: 1.85;
+}
+body.embed-report .fact-card h3 { font-size: 15px; }
+body.embed-report .status-box,
+body.embed-report .callout {
+  margin: 25px 0;
+  padding: 20px;
+  font-size: 14px;
+}
+body.embed-report .callout-title { font-size: 16px; }
+body.embed-report .equation {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin-top: 25px;
+  padding: 22px 16px;
+  overflow-x: auto;
+  font-size: 21px;
+}
+body.embed-report .eq-caption {
+  font-size: 11px;
+  line-height: 1.9;
+  text-align: left;
+}
+body.embed-report .term-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  margin: 22px 0 28px;
+}
+body.embed-report .term-card {
+  padding: 17px 5px;
+  font-size: 14px;
+  line-height: 1.85;
+}
+body.embed-report .term-card h3 { font-size: 15px; }
+body.embed-report .term-symbol { font-size: 17px; }
+body.embed-report .figure-card,
+body.embed-report .figure-card.dark-section {
+  width: 100%;
+  min-width: 0;
+  margin: 26px 0;
+  padding: 0;
+}
+body.embed-report .figure-top {
+  padding: 17px 17px 14px;
+  gap: 6px 12px;
+}
+body.embed-report .figure-title,
+body.embed-report .figure-top h3 { font-size: 14px; }
+body.embed-report .figure-label { font-size: 9px; }
+body.embed-report .viz-frame canvas {
+  width: 100%;
+  max-width: 100%;
+  height: 320px;
+}
+body.embed-report .controls {
+  padding: 16px 17px;
+  gap: 14px 12px;
+  font-size: 12px;
+}
+body.embed-report .controls label:has(input[type="range"]) {
+  flex: 1 1 100%;
+  min-width: 0;
+  gap: 9px;
+}
+body.embed-report .controls input[type="range"] {
+  flex: 1 1 100px;
+  width: 100px;
+  max-width: none;
+  min-width: 70px;
+}
+body.embed-report .controls button {
+  min-height: 38px;
+  padding: 8px 12px;
+  font-size: 11px;
+}
+body.embed-report .readout {
+  padding: 15px 17px;
+  gap: 12px 14px;
+}
+body.embed-report .controls > .readout {
+  flex-basis: 100%;
+  padding: 2px 0 0;
+}
+body.embed-report .viz-stat { flex: 1 1 75px; }
+body.embed-report .viz-stat > span { font-size: 10px; }
+body.embed-report .viz-stat > strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+body.embed-report .legend {
+  padding: 0 17px 14px;
+  font-size: 10px;
+}
+body.embed-report .figure-caption {
+  padding: 15px 17px 18px;
+  font-size: 11px;
+  line-height: 1.9;
+}
+body.embed-report .split { gap: 14px; }
+body.embed-report .mini-card {
+  padding: 21px;
+  font-size: 14px;
+}
+body.embed-report .comparison-table {
+  width: 100%;
+  min-width: 0;
+  margin: 25px 0;
+}
+body.embed-report .comparison-table table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+body.embed-report .comparison-table caption {
+  padding: 12px;
+  font-size: 11px;
+}
+body.embed-report .comparison-table th,
+body.embed-report .comparison-table td {
+  min-width: 0;
+  padding: 12px 8px;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  font-size: 12px;
+  line-height: 1.8;
+}
+body.embed-report .comparison-table thead th:nth-child(1) { width: 14%; }
+body.embed-report .comparison-table thead th:nth-child(2) { width: 21%; }
+body.embed-report .comparison-table thead th:nth-child(3) { width: 33%; }
+body.embed-report .comparison-table thead th:nth-child(4) { width: 32%; }
+body.embed-report .comparison-table tbody th { min-width: 0; }
+body.embed-report .pullquote {
+  margin: 29px 0;
+  padding: 19px 0 19px 20px;
+  font-size: 21px;
+}
+body.embed-report .number-list li { padding-left: 37px; }
+body.embed-report .number-list li::before { font-size: 11px; }
+body.embed-report .number-list li > h3 { font-size: 17px; }
+body.embed-report .source-list {
+  padding-left: 20px;
+  font-size: 13px;
+}
+body.embed-report .source-list li {
+  min-width: 0;
+  padding-left: 4px;
+}
+body.embed-report .source-note { font-size: 11px; }
+body.embed-report .source-list a { overflow-wrap: anywhere; }
+body.embed-report summary {
+  padding: 16px 18px;
+  font-size: 13px;
+}
+body.embed-report details.math-note > p {
+  padding: 20px 18px;
+  font-size: 13px;
+}
+body.embed-report .question-list summary {
+  padding: 18px 3px;
+  font-size: 14px;
+}
+body.embed-report .question-list details > p { font-size: 14px; }
+body.embed-report .closing {
+  margin: 35px 0 43px;
+  padding-top: 28px;
+}
+body.embed-report .closing p { font-size: 21px; }
+body.embed-report .site-footer {
+  width: auto;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 0 30px;
+  gap: 12px 18px;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+body.embed-report .noscript-note {
+  max-width: 720px;
+  margin: 0 auto 24px;
+}
+
+@media (max-width: 759px) {
+  body.embed-report .site-footer,
+  body.embed-report .noscript-note { margin-inline: 20px; }
+}
+@media (max-width: 639px) {
+  body.embed-report .split { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 539px) {
+  body.embed-report .fact-grid,
+  body.embed-report .term-grid { grid-template-columns: minmax(0, 1fr); }
+  body.embed-report .term-card { padding-block: 16px; }
+  body.embed-report #hero-vortex { height: 250px; }
+  body.embed-report .viz-frame canvas { height: 300px; }
+}
+@media (max-width: 359px) {
+  body.embed-report .site-header { padding-inline: 14px; gap: 8px; }
+  body.embed-report .brand { gap: 7px; font-size: 9px; letter-spacing: .04em; }
+  body.embed-report .brand-number { padding-left: 7px; font-size: 8px; }
+  body.embed-report .header-action { padding: 7px 8px; font-size: 9px; }
+  body.embed-report .hero { padding: 28px 14px 25px; }
+  body.embed-report .report-grid { padding: 28px 14px 0; }
+  body.embed-report .fact-box { padding: 20px 15px; }
+  body.embed-report .status-box,
+  body.embed-report .callout { padding: 18px 16px; }
+  body.embed-report .figure-top,
+  body.embed-report .controls,
+  body.embed-report .readout,
+  body.embed-report .figure-caption { padding-inline: 14px; }
+  body.embed-report .controls > .readout { padding-inline: 0; }
+  body.embed-report .hero-meta time { padding-left: 0; border-left: 0; }
+  body.embed-report .comparison-table th,
+  body.embed-report .comparison-table td { padding-inline: 6px; }
+  body.embed-report .site-footer,
+  body.embed-report .noscript-note { margin-inline: 14px; }
+}
+@media print {
+  body.embed-report { font-size: 10pt; line-height: 1.75; }
+  body.embed-report .site-header,
+  body.embed-report .hero,
+  body.embed-report .report-grid,
+  body.embed-report .site-footer {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding-inline: 0;
+  }
+  body.embed-report .site-header { padding-top: 0; padding-bottom: 14px; }
+  body.embed-report .hero { display: block; padding-block: 25px; }
+  body.embed-report .hero h1 { font-size: 29pt; }
+  body.embed-report .hero-deck { font-size: 11pt; }
+  body.embed-report .hero-art { margin: 20px auto 0; }
+  body.embed-report #hero-vortex { height: 240px; }
+  body.embed-report .report-grid { padding-top: 25px; }
+  body.embed-report .report { font-size: 10pt; line-height: 1.75; }
+  body.embed-report .chapter { margin-bottom: 30px; }
+  body.embed-report .chapter h2 { font-size: 19pt; }
+  body.embed-report .report .lead { font-size: 12pt; }
+  body.embed-report .equation { overflow: visible; font-size: 15pt; }
+  body.embed-report .figure-card,
+  body.embed-report .figure-card.dark-section { margin: 20px 0; }
+  body.embed-report .viz-frame canvas { height: 270px; }
+  body.embed-report .comparison-table table,
+  body.embed-report .comparison-table th,
+  body.embed-report .comparison-table td { font-size: 9pt; }
+  body.embed-report .closing p { font-size: 15pt; }
+}
